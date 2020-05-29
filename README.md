@@ -14,3 +14,15 @@ pip install peak-engines
 ```
 
 ## Getting started
+
+Load an example dataset
+```python
+from sklearn.datasets import load_boston
+X, y = load_boston(return_X_y=True)
+```
+Split out training and testing portions
+```python
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(
+  X, y, test_size=0.1, random_state=0)
+```
