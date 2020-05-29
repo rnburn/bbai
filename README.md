@@ -52,3 +52,14 @@ y_pred = model.predict(X_test)
 print(mean_squared_error(y_test, y_pred))
 41.56037297819257
 ```
+Compute and plot the error distribution of a prediction
+```python
+logpdf = model.predict_logpdf([X_test[0]])
+def pdf(yi):
+    return np.exp(logpdf([yi]))
+plt.plot(y_range, [pdf(yi) for yi in y_range])
+plt.axvline(y_test[0])
+plt.xlabel('Median Housing Value in $1000s')
+plt.ylabel('Probability Density')
+```
+![alt text](images/getting_started_prediction_pdf.png "Error Distribution")
