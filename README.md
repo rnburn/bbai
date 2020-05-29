@@ -44,6 +44,7 @@ plt.ylabel('Latent Variable')
 plt.scatter(y, model.warper.compute_latent(y))
 ```
 ![alt text](images/getting_started_warp.png "Warping Function")
+
 Make predictions
 ```python
 from sklearn.metrics import mean_squared_error
