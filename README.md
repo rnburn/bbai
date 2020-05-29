@@ -43,4 +43,4 @@ plt.xlabel('Median Housing Value in $1000s')
 plt.ylabel('Latent Variable')
 plt.scatter(y, model.warper.compute_latent(y))
 ```
-![alt text](data/getting_started_warp.png "Warping Function")
+![alt text](images/getting_started_warp.png "Warping Function")
