@@ -49,5 +49,5 @@ Make predictions
 from sklearn.metrics import mean_squared_error
 y_pred = model.predict(X_test)
 print(mean_squared_error(y_test, y_pred))
-```
 41.56037297819257
+```
