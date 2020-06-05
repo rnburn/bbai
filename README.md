@@ -67,13 +67,11 @@ plt.ylabel('Probability Density')
 
 ## Examples
 
-[example/boston_housing.ipynb](example/boston_housing.ipynb):
+* [example/boston_housing.ipynb](example/boston_housing.ipynb):
   Build a model to predict housing values.
-
-[example/fish.ipynb](example/fish.ipynb): 
+* [example/fish.ipynb](example/fish.ipynb): 
   Predict the weight of fish.
-
-[example/abalone.ipynb)(example/abalone.ipynb): 
+* [example/abalone.ipynb](example/abalone.ipynb): 
   Predict the age of sea snails.
 
 ## Documentation
