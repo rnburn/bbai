@@ -2,7 +2,7 @@
 **peak-engines** is a Python package for building Warped Linear Regression models. 
 
 Warped Linear Regression is like Ordinary Least Squares but with an extra transformation step where
-target values are first mapped to latent values using a parameterized monotonic function and adjusted
+target values are remapped using a parameterized monotonic function and adjusted
 so as to maximize likelihood on a linear model. The transformation makes Warped Linear Regression more general purpose than
 Ordinary Least Squares and able to fit models with non-normal error distributions.
 
