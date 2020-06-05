@@ -65,5 +65,10 @@ plt.ylabel('Probability Density')
 ```
 ![alt text](images/getting_started_prediction_pdf.png "Error Distribution")
 
+## Examples
+
+[example/boston_housing.ipynb](example/boston_housing.ipynb)
+  : Build a model to predict housing values.
+
 ## Documentation
 See [doc/Reference.pdf](doc/Reference.pdf).
