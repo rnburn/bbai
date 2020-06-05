@@ -68,7 +68,7 @@ plt.ylabel('Probability Density')
 ## Examples
 
 [example/boston_housing.ipynb](example/boston_housing.ipynb)
-  : Build a model to predict housing values.
+    : Build a model to predict housing values.
 
 ## Documentation
 See [doc/Reference.pdf](doc/Reference.pdf).
