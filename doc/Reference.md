@@ -1,10 +1,6 @@
 Module peak_engines
 ===================
 
-Sub-modules
------------
-* peak_engines.peak_engines_impl
-
 Classes
 -------
 
@@ -30,9 +26,6 @@ Classes
         The tolerance for the optimizer to use when deciding to stop the objective. With a lower
         value, the optimizer will be more stringent when deciding whether to stop searching.
     
-    Examples
-    --------
-
     ### Instance variables
 
     `noise_stddev`
