@@ -14,7 +14,9 @@ fit models with non-normal error distributions.
 For more details on the math behind Warped Linear Regression models see
 `What to Do When Your Model Has a Non-Normal Error
 Distribution <https://medium.com/p/what-to-do-when-your-model-has-a-non-normal-error-distribution-f7c3862e475f?source=email-f55ad0a8217--writer.postDistributed&sk=f3d494b5f5a8b593f404e7af19a2fb37>`__.
-## Installation
+
+Installation
+------------
 
 ::
 
@@ -59,7 +61,7 @@ Visualize the warping function
    plt.ylabel('Latent Variable')
    plt.scatter(y, model.warper.compute_latent(y))
 
-.. figure:: https://github.com/rnburn/peak-engines/images/getting_started_warp.png
+.. figure:: https://github.com/rnburn/peak-engines/blob/master/images/getting_started_warp.png
    :alt: Warping Function
 
    alt text
@@ -85,7 +87,7 @@ Compute and plot the error distribution of a prediction
    plt.xlabel('Median Housing Value in $1000s')
    plt.ylabel('Probability Density')
 
-.. figure:: https://github.com/rnburn/peak-engines/images/getting_started_prediction_pdf.png
+.. figure:: https://github.com/rnburn/peak-engines/blob/master/images/getting_started_prediction_pdf.png
    :alt: Error Distribution
 
    alt text
@@ -93,14 +95,14 @@ Compute and plot the error distribution of a prediction
 Examples
 --------
 
--  `example/boston_housing.ipynb <https://github.com/rnburn/peak-engines/example/boston_housing.ipynb>`__:
+-  `example/boston_housing.ipynb <https://github.com/rnburn/peak-engines/blob/master/example/boston_housing.ipynb>`__:
    Build a model to predict housing values.
--  `example/fish.ipynb <https://github.com/rnburn/peak-engines/example/fish.ipynb>`__: Predict the weight of
+-  `example/fish.ipynb <https://github.com/rnburn/peak-engines/blob/master/example/fish.ipynb>`__: Predict the weight of
    fish.
--  `example/abalone.ipynb <https://github.com/rnburn/peak-engines/example/abalone.ipynb>`__: Predict the age of
+-  `example/abalone.ipynb <https://github.com/rnburn/peak-engines/blob/master/example/abalone.ipynb>`__: Predict the age of
    sea snails.
 
 Documentation
 -------------
 
-See `doc/Reference.pdf <https://github.com/rnburn/peak-engines/doc/Reference.pdf>`__.
+See `doc/Reference.pdf <https://github.com/rnburn/peak-engines/blob/master/doc/Reference.pdf>`__.
