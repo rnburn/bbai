@@ -64,8 +64,6 @@ Visualize the warping function
 .. figure:: https://github.com/rnburn/peak-engines/blob/master/images/getting_started_warp.png
    :alt: Warping Function
 
-   alt text
-
 Make predictions
 
 .. code:: python
@@ -89,8 +87,6 @@ Compute and plot the error distribution of a prediction
 
 .. figure:: https://github.com/rnburn/peak-engines/blob/master/images/getting_started_prediction_pdf.png
    :alt: Error Distribution
-
-   alt text
 
 Examples
 --------
