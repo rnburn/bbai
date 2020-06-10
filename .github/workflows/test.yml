@@ -31,19 +31,10 @@ jobs:
   osx:
     runs-on: osx-latest
 
-    strategy:
-      matrix:
-        python-version: [2.7, 3.5]
-
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
         cd wheel
         if [ `python --version 2>&1 | cut -c8` == "2" ]; then
           pip install peak_engines-0.1.0-cp27-cp27mu-manylinux1_x86_64.whl
