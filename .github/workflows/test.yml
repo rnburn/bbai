@@ -29,10 +29,20 @@ jobs:
         python test.py
 
   osx:
-    runs-on: osx-latest
+    runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: |
         echo "arf"
+        python -m pip install --upgrade pip
+        cd wheel
+        if [ `python --version 2>&1 | cut -c8` == "2" ]; then
+          pip install peak_engines-0.1.0-cp27-cp27mu-manylinux1_x86_64.whl
+        else
+          pip install peak_engines-0.1.0-cp32-abi3-manylinux1_x86_64.whl
+        fi
+    - name: Test
+      run: |
+        python test.py
