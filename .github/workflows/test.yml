@@ -38,7 +38,7 @@ jobs:
         python -m pip install --upgrade pip
         cd wheel
         if [ `python --version 2>&1 | cut -c8` == "2" ]; then
-          pip install peak_engines-0.1.0-cp27-cp27mu-macosx_10_9_intel.whl
+          pip install peak_engines-0.1.0-cp27-cp27m-macosx_10_9_intel.whl
         else
           pip install peak_engines-0.1.0-cp32-abi3-macosx_10_9_intel.whl
         fi
