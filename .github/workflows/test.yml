@@ -30,6 +30,9 @@ jobs:
 
   osx:
     runs-on: macos-latest
+    strategy:
+      matrix:
+        python-version: [2.7, 3.5]
 
     steps:
     - uses: actions/checkout@v2
