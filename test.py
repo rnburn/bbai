@@ -17,4 +17,5 @@ def make_random_problem():
 X, y = make_random_problem()
 model = peak_engines.WarpedLinearRegressionModel()
 model.fit(X, y)
-print(model.regressors)
+assert model.within_tolerance_
+print(model.regressors_)
