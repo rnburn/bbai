@@ -38,11 +38,11 @@ Visualize the warping function
 import numpy as np
 import matplotlib.pyplot as plt
 y_range = np.arange(np.min(y), np.max(y), 0.01)
-z = model.warper.compute_latent(y_range)
+z = model.warper_.compute_latent(y_range)
 plt.plot(y_range, z)
 plt.xlabel('Median Housing Value in $1000s')
 plt.ylabel('Latent Variable')
-plt.scatter(y, model.warper.compute_latent(y))
+plt.scatter(y, model.warper_.compute_latent(y))
 ```
 ![alt text](images/getting_started_warp.png "Warping Function")
 
