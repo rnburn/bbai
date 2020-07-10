@@ -27,6 +27,7 @@ jobs:
     - name: Test
       run: |
         python test.py
+        python test/ridge_regression_test.py
 
   osx:
     runs-on: macos-latest
@@ -52,3 +53,4 @@ jobs:
     - name: Test
       run: |
         python test.py
+        python test/ridge_regression_test.py
