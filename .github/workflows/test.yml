@@ -24,9 +24,11 @@ jobs:
         else
           pip install peak_engines-*-cp32-abi3-manylinux1_x86_64.whl
         fi
-    - name: Test
+    - name: Test Warped Linear Regression
       run: |
         python test.py
+    - name: Test Ridge Regression
+      run: |
         python test/ridge_regression_test.py
 
   osx:
@@ -50,7 +52,9 @@ jobs:
         else
           pip install peak_engines-*-cp32-abi3-macosx_10_9_intel.whl
         fi
-    - name: Test
+    - name: Test Warped Linear Regression
       run: |
         python test.py
+    - name: Test Ridge Regression
+      run: |
         python test/ridge_regression_test.py
