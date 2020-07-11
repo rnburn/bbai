@@ -46,7 +46,7 @@ def compute_log_likelihood_proxy(X, y, phi):
     model.fit(X, z)
     z_pred = model.predict(X)
     rss = sum((z-z_pred)**2)
-    return -len(y)/2*np.log(rss) + sum(np.log(fp(y)))
+    return -len(y)/2.0*np.log(rss) + sum(np.log(fp(y)))
 
 
 def verify_log_likelihood_opt(X, y, phi):
