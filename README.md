@@ -1,5 +1,5 @@
 # peak-engines 
-![](https://github.com/rnburn/peak-engines/workflows/CI/badge.svg) [![PyPI version](https://img.shields.io/pypi/v/peak-engines.svg)](https://badge.fury.io/py/peak-engines) [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+![](https://github.com/rnburn/peak-engines/workflows/CI/badge.svg) [![PyPI version](https://img.shields.io/pypi/v/peak-engines.svg)](https://badge.fury.io/py/peak-engines) [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/) [![API Reference](http://img.shields.io/badge/api-reference-blue.svg)](https://github.com/rnburn/peak-engines/blob/master/doc/Reference.pdf)
 
 **peak-engines** is a Python package for building Warped Linear Regression models. 
 
