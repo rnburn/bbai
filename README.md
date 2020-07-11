@@ -1,4 +1,5 @@
-# peak-engines ![](https://github.com/rnburn/peak-engines/.github/workflows/test.yml/badge.svg)
+# peak-engines [![Actions Status](https://github.com/rnburn/peak-engines/workflows/test.yml/badge.svg)](https://github.com/rnburn/peak-engines/actions)
+
 **peak-engines** is a Python package for building Warped Linear Regression models. 
 
 Warped Linear Regression is like Ordinary Least Squares but with an extra transformation step where
