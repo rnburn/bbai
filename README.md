@@ -1,4 +1,4 @@
-# peak-engines 
+# peak-engines [![PyPI version](https://badge.fury.io/py/peak-engines.svg)](https://badge.fury.io/py/peak-engines)
 
 **peak-engines** is a Python package for building Warped Linear Regression models. 
 
