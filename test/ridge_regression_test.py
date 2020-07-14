@@ -15,7 +15,7 @@ def make_random_problem(n, beta):
     return X, y
 
 def compute_loocv(X, y, Gamma):
-    """Computes the leave-out cross validation using a brute force appraoch"""
+    # Compute the leave-one-out cross-validation using a brute force approach
     result = 0
     for i in range(len(y)):
         x_i = X[i,:]
@@ -29,6 +29,17 @@ def compute_loocv(X, y, Gamma):
     return result / len(y)
 
 def compute_gcv(X, y, Gamma):
+    # Compute the generalized cross-validation as a leave-one-out cross-validation on a rotated
+    # dataset.
+    #
+    # This approach is valid when multiple regularizers are used and is equivalent to this more
+    # familiar formula when only a single regularizer is used
+    #  1/n*|y - X b_hat|^2/[1/n Tr(I - X A^{-1} X^T)]^2
+    # where
+    #  A = X^T X + alpha^2 I
+    #
+    # See 
+    # Golub G., Heath M., and Wahba G., Generalized Cross-Validation as a Method for Choosing a Good Ridge Parameter (1979), TECHNOMETRICS, Vol 21, No 2
     U, S, Vt = np.linalg.svd(X)
     n = len(y)
     W = [[np.exp(2j*np.pi*i*j/n) / np.sqrt(n) for j in range(n)] for i in range(n)]
@@ -37,8 +48,9 @@ def compute_gcv(X, y, Gamma):
     y_prime = np.dot(Q, y)
     return compute_loocv(X_prime, y_prime, Gamma)
 
-def verify_opt_1_impl(X, y, alpha, cv_computer):
-    """Verifies that a given single ridge regression regularization is a LOOCV optimum"""
+def verify_optimum_1_impl(X, y, alpha, cv_computer):
+    # Verify that a regularizer optimizes the LOOCV by stepping to neighboring points and checking
+    # that we can't find better parameters
     delta_x = 1.0e-5
     def f(x):
         return cv_computer(X, y, np.identity(X.shape[1])*x)
@@ -53,13 +65,14 @@ def verify_opt_1_impl(X, y, alpha, cv_computer):
             return False
     return True
 
-def verify_opt_1(score, X, y, alpha):
+def verify_optimum_1(score, X, y, alpha):
     if score == 'loocv':
-        return verify_opt_1_impl(X, y, alpha, compute_loocv)
-    return verify_opt_1_impl(X, y, alpha, compute_gcv)
+        return verify_optimum_1_impl(X, y, alpha, compute_loocv)
+    return verify_optimum_1_impl(X, y, alpha, compute_gcv)
 
-def verify_opt_p_impl(X, y, alpha, cv_computer):
-    """Verifies that a given multi ridge regression regularization is a LOOCV optimum"""
+def verify_optimum_p_impl(X, y, alpha, cv_computer):
+    # Verify that a vector of regularizers optimizes the LOOCV by stepping to neighboring points and
+    # checking that we can't find better parameters
     delta_x = 1.0e-3
     for i, alpha_i in enumerate(alpha):
         def f(x):
@@ -75,12 +88,12 @@ def verify_opt_p_impl(X, y, alpha, cv_computer):
                 return False
     return True
 
-def verify_opt_p(score, X, y, alpha):
+def verify_optimum_p(score, X, y, alpha):
     if score == 'loocv':
-        return verify_opt_p_impl(X, y, alpha, compute_loocv)
-    return verify_opt_p_impl(X, y, alpha, compute_gcv)
+        return verify_optimum_p_impl(X, y, alpha, compute_loocv)
+    return verify_optimum_p_impl(X, y, alpha, compute_gcv)
 
-def verify_opt_grouped(score, X, y, alpha, groupings):
+def verify_optimum_grouped(score, X, y, alpha, groupings):
     cv_computer = compute_loocv
     if score == 'gcv':
         cv_computer = compute_gcv
@@ -93,7 +106,7 @@ def verify_opt_grouped(score, X, y, alpha, groupings):
             for index in indexes:
                 Gamma_prime[index, index] = Gamma[group_index, group_index]
         return cv_computer(X, y, Gamma_prime)
-    return verify_opt_p_impl(X, y, alpha, cv_computer_prime)
+    return verify_optimum_p_impl(X, y, alpha, cv_computer_prime)
 
 
 class TestRidgeRegressionModel(unittest.TestCase):
@@ -109,7 +122,7 @@ class TestRidgeRegressionModel(unittest.TestCase):
 
             self.assertEqual(len(model.regularization_), len(beta))
 
-            self.assertTrue(verify_opt_1(score, X, y, model.regularization_[0]))
+            self.assertTrue(verify_optimum_1(score, X, y, model.regularization_[0]))
 
             y_pred = model.predict(X)
             self.assertEqual(len(y_pred), num_data)
@@ -127,7 +140,7 @@ class TestRidgeRegressionModel(unittest.TestCase):
 
             self.assertEqual(len(model.regularization_), len(beta))
 
-            self.assertTrue(verify_opt_p(score, X, y, model.regularization_))
+            self.assertTrue(verify_optimum_p(score, X, y, model.regularization_))
 
             y_pred = model.predict(X)
             self.assertEqual(len(y_pred), num_data)
@@ -146,7 +159,7 @@ class TestRidgeRegressionModel(unittest.TestCase):
 
             self.assertEqual(len(model.regularization_), len(beta))
 
-            self.assertTrue(verify_opt_grouped(score, X, y, model.regularization_, groupings))
+            self.assertTrue(verify_optimum_grouped(score, X, y, model.regularization_, groupings))
 
             y_pred = model.predict(X)
             self.assertEqual(len(y_pred), num_data)
