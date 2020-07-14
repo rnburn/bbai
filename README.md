@@ -1,25 +1,40 @@
 # peak-engines 
 ![](https://github.com/rnburn/peak-engines/workflows/CI/badge.svg) [![PyPI version](https://img.shields.io/pypi/v/peak-engines.svg)](https://badge.fury.io/py/peak-engines) [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/) [![API Reference](http://img.shields.io/badge/api-reference-blue.svg)](https://github.com/rnburn/peak-engines/blob/master/doc/Reference.pdf)
 
-**peak-engines** is a Python package for building Warped Linear Regression models. 
-
-Warped Linear Regression is like Ordinary Least Squares but with an extra transformation step where
-target values are remapped using a parameterized monotonic function and adjusted
-so as to maximize likelihood on a linear model. The transformation makes Warped Linear Regression more general purpose than
-Ordinary Least Squares and able to fit models with non-normal error distributions.
-
-For more details on the math behind Warped Linear Regression models see 
-[What to Do When Your Model Has a Non-Normal Error Distribution](https://medium.com/p/what-to-do-when-your-model-has-a-non-normal-error-distribution-f7c3862e475f?source=email-f55ad0a8217--writer.postDistributed&sk=f3d494b5f5a8b593f404e7af19a2fb37).
-
 **peak-engines** is machine learning framework. It focuses on applying advanced optimization algorithms
-to build better models.
+to build better models. Here are some examples of what it can do:
 
-## Demos
+### Ridge Regression Parameter Optimization
+By expressing cross-validation as an optimization objective and computing derivatives, 
+**peak-engines** is able to efficiently find regularization parameters that lead to the best
+score on a leave-one-out or generalized cross-validation. It, futhermore, scales to handle 
+multiple regularizers.
 
-**peak-engines** can automatically fit ridge regression regularizers so as to maximize performance on
-a leave-one-out cross-validation. Because it expresses regularization as an optimization problem where it
-computes derivatives, it can efficiently handle not just one but multiple regularizers.
+![alt text](https://raw.githubusercontent.com/rnburn/peak-engines/master/images/ridge-regression.gif "Ridge Regression Demo")
 
+### Warped Linear Regression
+Let *X* and *y* denote the feature matrix and target vector of a regression dataset. Under the
+assumption of normally distributed errors, Ordinary Least Squares (OLS) finds the linear model
+that maximizes the likelihood of the dataset
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/rnburn/peak-engines/master/images/ols-likelihood.png">
+</p>
+
+What happens when errors aren't normally distributed? Well, the model will be misspecified and 
+there's no reason to think its likelihood predictions will be accurate. This is where 
+Warped Linear Regression can help. It introduces an extra step to OLS where it transforms the 
+target vector using a flexible monotonic function *f* parameterized by *ψ* and finds parameters that
+maximize the likelihood of the transformed dataset
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/rnburn/peak-engines/master/images/ols-likelihood-transformed.png">
+</p>
+
+By introducing the additional transformation step, Warped Linear Regression is more general-purpose
+than OLS while still retaining the strong structure and interpretability.
+
+![alt text](https://raw.githubusercontent.com/rnburn/peak-engines/master/images/warped-linear-regression.gif "Warped Linear Regression Demo")
 
 ## Installation
 
@@ -27,65 +42,24 @@ computes derivatives, it can efficiently handle not just one but multiple regula
 pip install peak-engines
 ```
 
-## Getting started
+## Tutorials
 
-Load an example dataset
-```python
-from sklearn.datasets import load_boston
-X, y = load_boston(return_X_y=True)
-```
-Split out training and testing portions
-```python
-from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(
-  X, y, test_size=0.1, random_state=0)
-```
-Fit a Warped Linear Regression Model
-```python
-import peak_engines
-model = peak_engines.WarpedLinearRegressionModel()
-model.fit(X_train, y_train)
-```
-Visualize the warping function
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-y_range = np.arange(np.min(y), np.max(y), 0.01)
-z = model.warper_.compute_latent(y_range)
-plt.plot(y_range, z)
-plt.xlabel('Median Housing Value in $1000s')
-plt.ylabel('Latent Variable')
-plt.scatter(y, model.warper_.compute_latent(y))
-```
-![alt text](images/getting_started_warp.png "Warping Function")
+* [How to Build a Warped Linear Regression Model](https://towardsdatascience.com/how-to-build-a-warped-linear-regression-model-3e778e30a201)
 
-Make predictions
-```python
-from sklearn.metrics import mean_squared_error
-y_pred = model.predict(X_test)
-print(mean_squared_error(y_test, y_pred))
-41.56037297819257
-```
-Compute and plot the error distribution of a prediction
-```python
-logpdf = model.predict_logpdf([X_test[0]])
-def pdf(yi):
-    return np.exp(logpdf([yi]))
-plt.plot(y_range, [pdf(yi) for yi in y_range])
-plt.axvline(y_test[0])
-plt.xlabel('Median Housing Value in $1000s')
-plt.ylabel('Probability Density')
-```
-![alt text](images/getting_started_prediction_pdf.png "Error Distribution")
+## Articles
+
+* [How to Do Ridge Regression Better](https://towardsdatascience.com/how-to-do-ridge-regression-better-34ecb6ee3b12)
+* [What Form of Cross-Validation Should You Use?](https://medium.com/p/what-form-of-cross-validation-should-you-use-76aaecc45c75?source=email-f55ad0a8217--writer.postDistributed&sk=a63ac2a04e49a12e7aa4c12a75b18502)
+* [What to Do When Your Model Has a Non-Normal Error Distribution](https://medium.com/p/what-to-do-when-your-model-has-a-non-normal-error-distribution-f7c3862e475f?source=email-f55ad0a8217--writer.postDistributed&sk=f3d494b5f5a8b593f404e7af19a2fb37)
 
 ## Examples
 
-* [example/boston_housing.ipynb](example/boston_housing.ipynb):
-  Build a model to predict housing values.
-* [example/fish.ipynb](example/fish.ipynb): 
-  Predict the weight of fish.
-* [example/abalone.ipynb](example/abalone.ipynb): 
-  Predict the age of sea snails.
+* [example/warped_linear_regression/boston_housing.ipynb](https://github.com/rnburn/peak-engines/blob/master/example/warped_linear_regression/boston_housing.ipynb):
+  Build a warped linear regression model to predict housing values.
+* [example/warped_linear_regression/fish.ipynb](https://github.com/rnburn/peak-engines/blob/master/example/warped_linear_regression/fish.ipynb): 
+  Predict the weight of fish using a warped linear regression model.
+* [example/warped_linear_regression/abalone.ipynb](https://github.com/rnburn/peak-engines/blob/master/example/abalone.ipynb): 
+  Predict the age of sea snails using warped linear regression.
 
 ## Documentation
-See [doc/Reference.pdf](doc/Reference.pdf).
+See [doc/Reference.pdf](https://github.com/rnburn/peak-engines/blob/master/doc/Reference.pdf)
