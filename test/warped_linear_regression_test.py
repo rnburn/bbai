@@ -49,7 +49,9 @@ def compute_log_likelihood_proxy(X, y, phi):
     return -len(y)/2.0*np.log(rss) + sum(np.log(fp(y)))
 
 
-def verify_log_likelihood_opt(X, y, phi):
+def verify_log_likelihood_optimum(X, y, phi):
+    # Verify that warping parameters optimize the likelihood of the transformed dataset under
+    # OLS by stepping to neighboring points and checking that we can't find better parameters
     delta_x = 1.0e-3
     for i, phi_i in enumerate(phi):
         def f(x):
@@ -81,7 +83,7 @@ class TestWarpedLinearRegressionModel(unittest.TestCase):
         model = peak_engines.WarpedLinearRegressionModel()
         model.fit(X, y)
         self.assertTrue(model.within_tolerance_)
-        self.assertTrue(verify_log_likelihood_opt(X, y, model.warper_.parameters_))
+        self.assertTrue(verify_log_likelihood_optimum(X, y, model.warper_.parameters_))
 
         self.assertEqual(len(model.regressors_), num_features)
 
