@@ -10,6 +10,17 @@ Ordinary Least Squares and able to fit models with non-normal error distribution
 
 For more details on the math behind Warped Linear Regression models see 
 [What to Do When Your Model Has a Non-Normal Error Distribution](https://medium.com/p/what-to-do-when-your-model-has-a-non-normal-error-distribution-f7c3862e475f?source=email-f55ad0a8217--writer.postDistributed&sk=f3d494b5f5a8b593f404e7af19a2fb37).
+
+**peak-engines** is machine learning framework. It focuses on applying advanced optimization algorithms
+to build better models.
+
+## Demos
+
+**peak-engines** can automatically fit ridge regression regularizers so as to maximize performance on
+a leave-one-out cross-validation. Because it expresses regularization as an optimization problem where it
+computes derivatives, it can efficiently handle not just one but multiple regularizers.
+
+
 ## Installation
 
 ```
