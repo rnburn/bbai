@@ -44,7 +44,7 @@ pip install peak-engines
 
 ## Tutorials
 
-* [Ridge Regrssion](https://github.com/rnburn/peak-engines/blob/master/tutorial/Ridge-Regression-Tutorial.md)
+* [Ridge Regression](https://github.com/rnburn/peak-engines/blob/master/tutorial/Ridge-Regression-Tutorial.md)
 * [Warped Linear Regression](https://towardsdatascience.com/how-to-build-a-warped-linear-regression-model-3e778e30a201)
 
 ## Articles
