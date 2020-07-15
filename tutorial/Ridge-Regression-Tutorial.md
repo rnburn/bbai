@@ -4,14 +4,19 @@ The task of the dataset is to predict the median price of housing from different
 economic and geographic features. Since the dataset comes prepackaged with sklearn, it's
 easy to load.
 ```python
+import numpy as np
 from sklearn.datasets import fetch_california_housing
 X, y = fetch_california_housing(return_X_y=True)
+
+# Remove some extreme outliers
+occ_max = np.percentile(X[:,5], 99)
+X[:, 5] = [min(x, occ_max) for x in X[:, 5]]
 ```
 We'll split the data into random training and validation subsets.
 ```python
 from sklearn.model_selection import train_test_split
 N = 50
-X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=N, random_state=0)
+X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=N, random_state=1)
 ```
 ## Fit a ridge regression model
 Ridge regression builds a linear model with regressors chosen to minimize
@@ -35,8 +40,7 @@ generalized cross-validation of the data.
 
 With **peak-engine**'s RidgeRegressionModel, there's no need to supply regularization parameters to try. 
 By treating cross-validation as an optimization problem and computing derivatives, it can quickly find
-the best regularization parameter for either a leave-one-out or generalized cross-validation. Here's how
-to use it
+the best regularization parameter for either a leave-one-out or generalized cross-validation.
 
 ```python
 from peak_engines import RidgeRegressionModel
@@ -46,8 +50,8 @@ print(model_rr1.regularization_)
 ```
 prints:
 ```
-[0.07411413 0.07411413 0.07411413 0.07411413 0.07411413 0.07411413
- 0.07411413 0.07411413]
+[0.11534536 0.11534536 0.11534536 0.11534536 0.11534536 0.11534536
+ 0.11534536 0.11534536]
 ```
 
 Futhermore, RidgeRegressionModel isn't limited to a single regularizer. We can fit models with separate
@@ -59,26 +63,32 @@ print(model_rrk.regularization_)
 ```
 prints:
 ```
-[ 1.01988649e-01  3.45652322e+02  1.68910823e-01 -5.03617908e-74
-  8.74477402e+02  4.94501307e-01  1.46454901e-01 -4.33453785e-36]
+[ 2.30923985e-01 -8.67658544e+02  6.82272953e+02  1.24145187e+00
+  3.75926298e+03  8.97075279e-01  9.67867510e-02  8.47172098e-02]
 ```
 
 ## Validation
-Let's compare the performance of these models on the validation dataset to least squares.
-```
+Let's compare the performance of these models on the validation dataset to least squares and a
+dummy model.
+```python
 from sklearn.linear_model import LinearRegression
+from sklearn.dummy import DummyRegressor
 from sklearn.metrics import mean_squared_error
 model_ls = LinearRegression()
 model_ls.fit(X_train, y_train)
-print("LS ", mean_squared_error(y_test, model_ls.predict(X_test))**.5)
-print("RR1", mean_squared_error(y_test, model_rr1.predict(X_test))**.5)
-print("RRk", mean_squared_error(y_test, model_rrk.predict(X_test))**.5)
+model_dummy = DummyRegressor()
+model_dummy.fit(X_train, y_train)
+print("LS   ", mean_squared_error(y_test, model_ls.predict(X_test))**.5)
+print("DUMMY", mean_squared_error(y_test, model_dummy.predict(X_test))**.5)
+print("RR1  ", mean_squared_error(y_test, model_rr1.predict(X_test))**.5)
+print("RRk  ", mean_squared_error(y_test, model_rrk.predict(X_test))**.5)
 ```
 prints:
 ```
-LS  2.7565313981584105
-RR1 2.9162585271112498
-RRk 2.4804444530180976
+LS    1.007685362000467
+DUMMY 1.160695414363397
+RR1   1.1299420329197944
+RRk   0.7832389321263064
 ```
-Of course, the performance was sensitive to the random split. For a more complete analysis, take a
+Of course, these results are sensitive to the random split. For a more complete analysis, take a
 look at this [notebook](https://github.com/rnburn/peak-engines/blob/master/example/ridge_regression/california_housing.ipynb).
