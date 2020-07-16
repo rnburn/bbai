@@ -24,7 +24,7 @@ that maximizes the likelihood of the dataset
 What happens when errors aren't normally distributed? Well, the model will be misspecified and 
 there's no reason to think its likelihood predictions will be accurate. This is where 
 Warped Linear Regression can help. It introduces an extra step to OLS where it transforms the 
-target vector using a flexible monotonic function *f* parameterized by *ψ* and finds parameters that
+target vector using a malleable, monotonic function *f* parameterized by *ψ* and adjusts the parameters to
 maximize the likelihood of the transformed dataset
 
 <p align="center">

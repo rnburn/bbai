@@ -67,7 +67,7 @@ prints:
   3.75926298e+03  8.97075279e-01  9.67867510e-02  8.47172098e-02]
 ```
 
-## Validation
+## Validate the models
 Let's compare the performance of these models on the validation dataset to least squares and a
 dummy model.
 ```python
