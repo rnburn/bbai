@@ -55,10 +55,12 @@ pip install peak-engines
 
 ## Examples
 
+* [example/ridge_regression/california_housing.ipynb](https://github.com/rnburn/peak-engines/blob/master/example/ridge_regression/california_housing.ipynb):
+  Measure the performance of different ridge regression models for predicting housing values.
+* [example/ridge_regression/pollution.ipynb](https://github.com/rnburn/peak-engines/blob/master/example/ridge_regression/pollution.ipynb):
+  Build ridge regression models to predict mortality rates from air quality.
 * [example/warped_linear_regression/boston_housing.ipynb](https://github.com/rnburn/peak-engines/blob/master/example/warped_linear_regression/boston_housing.ipynb):
   Build a warped linear regression model to predict housing values.
-* [example/warped_linear_regression/fish.ipynb](https://github.com/rnburn/peak-engines/blob/master/example/warped_linear_regression/fish.ipynb): 
-  Predict the weight of fish using a warped linear regression model.
 * [example/warped_linear_regression/abalone.ipynb](https://github.com/rnburn/peak-engines/blob/master/example/abalone.ipynb): 
   Predict the age of sea snails using warped linear regression.
 
