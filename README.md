@@ -18,7 +18,7 @@ assumption of normally distributed errors, Ordinary Least Squares (OLS) finds th
 that maximizes the likelihood of the dataset
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/rnburn/peak-engines/master/images/ols-likelihood.png">
+  <img src="https://raw.githubusercontent.com/rnburn/peak-engines/master/images/ols-likelihood.png" height="66" width="381">
 </p>
 
 What happens when errors aren't normally distributed? Well, the model will be misspecified and 
@@ -28,7 +28,7 @@ target vector using a flexible monotonic function *f* parameterized by *ψ* and 
 maximize the likelihood of the transformed dataset
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/rnburn/peak-engines/master/images/ols-likelihood-transformed.png">
+  <img src="https://raw.githubusercontent.com/rnburn/peak-engines/master/images/ols-likelihood-transformed.png" height="66" width="542">
 </p>
 
 By introducing the additional transformation step, Warped Linear Regression is more general-purpose
