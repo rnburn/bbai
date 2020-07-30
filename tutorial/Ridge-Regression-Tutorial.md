@@ -44,27 +44,26 @@ the best regularization parameter for either a leave-one-out or generalized cros
 
 ```python
 from peak_engines import RidgeRegressionModel
-model_rr1 = RidgeRegressionModel()
+model_rr1 = RidgeRegressionModel(normalize=True)
 model_rr1.fit(X_train, y_train)
-print(model_rr1.regularization_)
+print(model_rr1.alpha_)
 ```
 prints:
 ```
-[0.11534536 0.11534536 0.11534536 0.11534536 0.11534536 0.11534536
- 0.11534536 0.11534536]
+0.013881582078968042
 ```
 
 Futhermore, RidgeRegressionModel isn't limited to a single regularizer. We can fit models with separate
 regularizers for each regressor.
 ```python
-model_rrk = RidgeRegressionModel(grouping_mode='none')
+model_rrk = RidgeRegressionModel(grouping_mode='none', normalize=True)
 model_rrk.fit(X_train, y_train)
-print(model_rrk.regularization_)
+print(model_rrk.alpha_)
 ```
 prints:
 ```
-[ 2.30923985e-01 -8.67658544e+02  6.82272953e+02  1.24145187e+00
-  3.75926298e+03  8.97075279e-01  9.67867510e-02  8.47172098e-02]
+[5.43030800e-02 8.75280854e+05 1.55784034e+05 1.61145562e+00
+ 3.04146134e+05 8.33699382e-01 9.57435308e-03 7.15992230e-03]
 ```
 
 ## Validate the models
@@ -87,8 +86,8 @@ prints:
 ```
 LS    1.007685362000467
 DUMMY 1.160695414363397
-RR1   1.1299420329197944
-RRk   0.7832389321263064
+RR1   1.1339289756837765
+RRk   0.780848215568904
 ```
 Of course, these results are sensitive to the random split. For a more complete analysis, take a
 look at this [notebook](https://github.com/rnburn/peak-engines/blob/master/example/ridge_regression/california_housing.ipynb).
