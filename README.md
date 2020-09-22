@@ -34,7 +34,7 @@ from sklearn.preprocessing import StandardScaler
 X, y = load_boston(return_X_y=True)
 X = StandardScaler().fit_transform(X)
 ```
-Find the best performing C
+Find the best performing `C`
 ```python
 model = peak_engines.LogisticRegressionModel()
 model.fit(X, y)
