@@ -19,7 +19,7 @@ print('C =', model.C_[0])
 ```
 prints
 ```
-C = 0.1355386645379227
+C = 0.66474879
 ```
 
 ### Other regularizers
