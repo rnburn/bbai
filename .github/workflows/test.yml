@@ -32,6 +32,9 @@ jobs:
     - name: Test Ridge Regression
       run: |
         python test/ridge_regression_test.py
+    - name: Test Logistic Regression
+      run: |
+        python test/logistic_regression_test.py
 
   osx:
     runs-on: macos-latest
@@ -62,3 +65,6 @@ jobs:
     - name: Test Ridge Regression
       run: |
         python test/ridge_regression_test.py
+    - name: Test Logistic Regression
+      run: |
+        python test/logistic_regression_test.py
