@@ -45,6 +45,7 @@ prints
 C = 0.1355386645379227
 ```
 If we compute the LOOCV by brute force and compare to the ALOOCV, we can see how accurate the approximation is
+
 ![alt text](https://raw.githubusercontent.com/rnburn/peak-engines/master/images/logistic-regression-aloocv.png "Aloocv")
 
 ### Fit Ridge Regression Hyperparameters
