@@ -42,7 +42,7 @@ print('C =', model.C_[0])
 ```
 prints
 ```
-C = 0.1355386645379227
+C = 0.66474879
 ```
 If we compute the LOOCV by brute force and compare to the ALOOCV, we can see how accurate the approximation is
 
