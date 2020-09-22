@@ -5,7 +5,7 @@ packaged with skearn.
 ```python
 from sklearn.datasets import load_breast_cancer
 from sklearn.preprocessing import StandardScaler
-X, y = load_boston(return_X_y=True)
+X, y = load_breast_cancer(return_X_y=True)
 X = StandardScaler().fit_transform(X)
 ```
 
