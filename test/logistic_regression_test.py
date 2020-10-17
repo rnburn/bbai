@@ -41,7 +41,7 @@ class TestLogisticRegressionModel(unittest.TestCase):
     def test_we_optimize_the_aloocv(self):
         X, y = load_breast_cancer(return_X_y=True)
         X = StandardScaler().fit_transform(X)
-        model = peak_engines.LogisticRegressionModel()
+        model = peak_engines.LogisticRegressionModel(tolerance=1.0e-6)
         model.fit(X, y)
         self.assertTrue(model.within_tolerance_)
         C_opt = model.C_[0]
