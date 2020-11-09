@@ -71,7 +71,7 @@ prints
 alpha = 0.009274259071634289
 ```
 
-### Fit a Warped Linear Regression
+### Fit Warped Linear Regression
 Let *X* and *y* denote the feature matrix and target vector of a regression dataset. Under the
 assumption of normally distributed errors, Ordinary Least Squares (OLS) finds the linear model
 that maximizes the likelihood of the dataset
