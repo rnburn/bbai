@@ -125,6 +125,7 @@ plt.scatter(y, model.warper_.compute_latent(y))
 
 ## Articles
 
+* [Optimizing Approximate Leave-one-out Cross-validation to Tune Hyperparameters](https://arxiv.org/abs/2011.10218)
 * [How to Do Ridge Regression Better](https://towardsdatascience.com/how-to-do-ridge-regression-better-34ecb6ee3b12)
 * [What Form of Cross-Validation Should You Use?](https://medium.com/p/what-form-of-cross-validation-should-you-use-76aaecc45c75?source=email-f55ad0a8217--writer.postDistributed&sk=a63ac2a04e49a12e7aa4c12a75b18502)
 * [What to Do When Your Model Has a Non-Normal Error Distribution](https://medium.com/p/what-to-do-when-your-model-has-a-non-normal-error-distribution-f7c3862e475f?source=email-f55ad0a8217--writer.postDistributed&sk=f3d494b5f5a8b593f404e7af19a2fb37)
