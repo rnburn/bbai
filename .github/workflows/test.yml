@@ -3,7 +3,7 @@ name: CI
 on: [push]
 
 jobs:
-  linux:
+  linux-python:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -36,7 +36,7 @@ jobs:
       run: |
         python test/logistic_regression_test.py
 
-  osx:
+  osx-python:
     runs-on: macos-latest
     strategy:
       matrix:
@@ -68,3 +68,20 @@ jobs:
     - name: Test Logistic Regression
       run: |
         python test/logistic_regression_test.py
+
+  linux-r:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        apt-get install --no-install-recommends --no-install-suggests -y \
+                r-base r-cran-glmnet
+        R CMD INSTALL packge/PeakEngines-linux-*
+    - name: Test Ridge Regression
+      run: |
+        echo
+    - name: Test Logistic Regression
+      run: |
+        echo
