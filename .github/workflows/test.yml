@@ -79,7 +79,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install --no-install-recommends --no-install-suggests -y \
                 r-base
-        R CMD INSTALL packge/PeakEngines-linux*
+        R CMD INSTALL package/PeakEngines-linux*
     - name: Test Ridge Regression
       run: |
         echo
