@@ -76,7 +76,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: |
-        apt-get install --no-install-recommends --no-install-suggests -y \
+        sudo apt-get update
+        sudo apt-get install --no-install-recommends --no-install-suggests -y \
                 r-base r-cran-glmnet
         R CMD INSTALL packge/PeakEngines-linux-*
     - name: Test Ridge Regression
