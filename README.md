@@ -28,67 +28,17 @@ R --slave -e "install.packages( \
  'https://github.com/rnburn/peak-engines/releases/download/v0.2.7/PeakEngines-osx_0.2.7.tar.gz')"
 ```
 
-### Fit Logistic Regression Hyperparameters
-The leave-one-out cross-validation of logistic regression can be efficiently approximated. At a 
-high level, this is how it works: For given hyperparameters `C`, we
-1. Find the parameters `b` that optimize logistic regression for the given `C`.
-2. For each data index `i`, we compute the hessian `H_{-i}` and gradient `g_{-i}` of the 
-log-likelihood with the ith data entry removed. (We can reuse the hessian computed from (1) to do this
-with a minimal amount of work.)
-3. We apply the [Matrix Inversion Lemma](https://en.wikipedia.org/wiki/Woodbury_matrix_identity) to
-efficiently compute the inverse `H_{-i}^{-1}`.
-4. We use `H_{-i}^{-1}` and `g_{-i}` to take a single step of [Newton's method](https://en.wikipedia.org/wiki/Newton%27s_method_in_optimization) to approximate the logistic regression coefficients with the ith entry removed `b_{-i}`.
-5. And finally, we used the `b_{-i}`'s to approximate the out-of-sample predictions and estimate the leave-one-out cross-validation.
+## Tune Hyperparameters to Optimize Approximate Leave-one-out Cross-validation for GLMs
 
-See the paper 
-[A scalable estimate of the out-of-sample prediction error via approximate leave-one-out](https://arxiv.org/abs/1801.10243) 
-by Kamiar Rad and Arian Maleki for more details.
-
-We can, furthermore, differentiate the Approximate Leave-One-Out metric with respect to the hyperparameters and quickly climb to the best performing `C`. Here's how to do it with **peak-engines**:
-
-Load an example dataset
-```python
-from sklearn.datasets import load_breast_cancer
-from sklearn.preprocessing import StandardScaler
-X, y = load_breast_cancer(return_X_y=True)
-X = StandardScaler().fit_transform(X)
-```
-Find the best performing `C`
-```python
-model = peak_engines.LogisticRegressionModel()
-model.fit(X, y)
-print('C =', model.C_[0])
-```
-prints
-```
-C = 0.66474879
-```
-If we compute the LOOCV by brute force and compare to the ALOOCV, we can see how accurate the approximation is
-
-![alt text](https://raw.githubusercontent.com/rnburn/peak-engines/master/images/logistic-regression-aloocv.png "Aloocv")
-
-## Fit Ridge Regression Hyperparameters
-By expressing cross-validation as an optimization objective and computing derivatives, 
-**peak-engines** is able to efficiently find regularization parameters that lead to the best
-score on a leave-one-out or generalized cross-validation. It, futhermore, scales to handle 
-multiple regularizers. Here's an example of how it works
-```python
-import numpy as np
-from sklearn.datasets import load_boston
-X, y = load_boston(return_X_y=True)
-from peak_engines import RidgeRegressionModel
-model = RidgeRegressionModel(normalize=True)
-# Fit will automatically find the best alpha that minimizes the Leave-one-out Cross-validation.
-# when you call fit. There's no need to provide a search space because peak_engines optimizes the
-# LOOCV directly. It the computes derivatives of the LOOCV with respect to the hyperparameters and
-# is able to quickly zero in on the best alpha.
-model.fit(X, y)
-print('alpha =', model.alpha_)
-```
-prints
-```
-alpha = 0.009274259071634289
-```
+**peak-engines** can select hyperparameters to optimize the Approximate Leave-one-out
+Cross-validation (ALO) for Generalized Linear Models (GLMs). It computes the gradient and hessian
+of ALO and applies a trust-region algorithm to efficiently find hyperparameters. The process is
+described in the paper 
+[Optimizing Approximate Leave-one-out Cross-validation to Tune Hyperparameters](https://arxiv.org/abs/2011.10218).
+Examples:
+* Ridge Regression [[python](https://github.com/rnburn/peak-engines/blob/master/tutorial/Ridge-Regression-Tutorial.md)]
+* Logistic Regression 
+[[python](https://github.com/rnburn/peak-engines/blob/master/tutorial/Logistic-Regression-Tutorial.md)]
 
 ## Fit Warped Linear Regression
 Let *X* and *y* denote the feature matrix and target vector of a regression dataset. Under the
