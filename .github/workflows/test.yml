@@ -86,3 +86,19 @@ jobs:
     - name: Test Logistic Regression
       run: |
         echo
+
+  osx-r:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        brew install r
+        R CMD INSTALL package/PeakEngines-osx*
+    - name: Test Ridge Regression
+      run: |
+        echo
+    - name: Test Logistic Regression
+      run: |
+        echo
