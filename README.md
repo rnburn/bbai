@@ -38,7 +38,7 @@ described in the paper
 
 Examples:
 * Ridge Regression [
-[Python](https://github.com/rnburn/peak-engines/blob/master/tutorial/Ridge-Regression-Tutorial.md)],
+[Python](https://github.com/rnburn/peak-engines/blob/master/tutorial/Ridge-Regression-Tutorial.md),
 [R](https://github.com/rnburn/peak-engines/blob/master/example/ridge_regression/longley.ipynb)]
 * Logistic Regression 
 [[Python](https://github.com/rnburn/peak-engines/blob/master/tutorial/Logistic-Regression-Tutorial.md),
