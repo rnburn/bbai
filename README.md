@@ -6,7 +6,7 @@ to build better models.
 
 ## Installation
 
-**peak-engines** supports both OSX and Linux for x86-64.
+**peak-engines** supports both OSX and Linux on x86-64.
 
 ### Python
 
