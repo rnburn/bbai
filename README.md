@@ -35,10 +35,12 @@ Cross-validation (ALO) for Generalized Linear Models (GLMs). It computes the gra
 of ALO and applies a trust-region algorithm to efficiently find hyperparameters. The process is
 described in the paper 
 [Optimizing Approximate Leave-one-out Cross-validation to Tune Hyperparameters](https://arxiv.org/abs/2011.10218).
+
 Examples:
 * Ridge Regression [[python](https://github.com/rnburn/peak-engines/blob/master/tutorial/Ridge-Regression-Tutorial.md)]
 * Logistic Regression 
-[[python](https://github.com/rnburn/peak-engines/blob/master/tutorial/Logistic-Regression-Tutorial.md)]
+[[python](https://github.com/rnburn/peak-engines/blob/master/tutorial/Logistic-Regression-Tutorial.md),
+[R](https://github.com/rnburn/peak-engines/blob/master/example/logistic_regression/diabetes.ipynb)]
 
 ## Fit Warped Linear Regression
 Let *X* and *y* denote the feature matrix and target vector of a regression dataset. Under the
