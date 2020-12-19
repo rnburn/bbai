@@ -19,13 +19,13 @@ pip install peak-engines
 Linux:
 ```
 R --slave -e "install.packages( \
-  'https://github.com/rnburn/peak-engines/releases/download/v0.2.7/PeakEngines-linux_0.2.7.tar.gz')"
+ 'https://github.com/rnburn/peak-engines/releases/download/v0.2.7/PeakEngines-linux_0.2.7.tar.gz')"
 ```
 
 OSX:
 ```
 R --slave -e "install.packages( \
-  'https://github.com/rnburn/peak-engines/releases/download/v0.2.7/PeakEngines-osx_0.2.7.tar.gz')"
+ 'https://github.com/rnburn/peak-engines/releases/download/v0.2.7/PeakEngines-osx_0.2.7.tar.gz')"
 ```
 
 ### Fit Logistic Regression Hyperparameters
