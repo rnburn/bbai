@@ -37,7 +37,9 @@ described in the paper
 [Optimizing Approximate Leave-one-out Cross-validation to Tune Hyperparameters](https://arxiv.org/abs/2011.10218).
 
 Examples:
-* Ridge Regression [[Python](https://github.com/rnburn/peak-engines/blob/master/tutorial/Ridge-Regression-Tutorial.md)]
+* Ridge Regression [
+[Python](https://github.com/rnburn/peak-engines/blob/master/tutorial/Ridge-Regression-Tutorial.md)],
+[R](https://github.com/rnburn/peak-engines/blob/master/example/ridge_regression/longley.ipynb)]
 * Logistic Regression 
 [[Python](https://github.com/rnburn/peak-engines/blob/master/tutorial/Logistic-Regression-Tutorial.md),
 [R](https://github.com/rnburn/peak-engines/blob/master/example/logistic_regression/diabetes.ipynb)]
