@@ -6,9 +6,26 @@ to build better models.
 
 ## Installation
 
+**peak-engines** supports both OSX and Linux for x86-64.
+
+### Python
+
 ```
 pip install peak-engines
 ```
+
+### R
+
+Linux:
+```
+R --slave -e 'install.packages("https://github.com/rnburn/peak-engines/releases/download/v0.2.7/PeakEngines-linux_0.2.7.tar.gz")'
+```
+
+OSX:
+```
+R --slave -e 'install.packages("https://github.com/rnburn/peak-engines/releases/download/v0.2.7/PeakEngines-osx_0.2.7.tar.gz")'
+```
+
 ### Fit Logistic Regression Hyperparameters
 The leave-one-out cross-validation of logistic regression can be efficiently approximated. At a 
 high level, this is how it works: For given hyperparameters `C`, we
@@ -48,7 +65,7 @@ If we compute the LOOCV by brute force and compare to the ALOOCV, we can see how
 
 ![alt text](https://raw.githubusercontent.com/rnburn/peak-engines/master/images/logistic-regression-aloocv.png "Aloocv")
 
-### Fit Ridge Regression Hyperparameters
+## Fit Ridge Regression Hyperparameters
 By expressing cross-validation as an optimization objective and computing derivatives, 
 **peak-engines** is able to efficiently find regularization parameters that lead to the best
 score on a leave-one-out or generalized cross-validation. It, futhermore, scales to handle 
@@ -71,7 +88,7 @@ prints
 alpha = 0.009274259071634289
 ```
 
-### Fit Warped Linear Regression
+## Fit Warped Linear Regression
 Let *X* and *y* denote the feature matrix and target vector of a regression dataset. Under the
 assumption of normally distributed errors, Ordinary Least Squares (OLS) finds the linear model
 that maximizes the likelihood of the dataset
