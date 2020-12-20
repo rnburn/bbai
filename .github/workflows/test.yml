@@ -80,7 +80,7 @@ jobs:
         sudo apt-get install --no-install-recommends --no-install-suggests -y \
                 r-base
         sudo R CMD INSTALL package/PeakEngines-linux*
-        sudo R -e "install.packages('mlbench')"
+        sudo R -e "install.packages('mlbench', repos = 'http://cran.us.r-project.org')"
     - name: Test Ridge Regression
       run: |
         Rscript test/ridge_regression_test.R
@@ -97,7 +97,7 @@ jobs:
       run: |
         brew install r
         R CMD INSTALL package/PeakEngines-osx*
-        R -e "install.packages('mlbench')"
+        R -e "install.packages('mlbench', repos = 'http://cran.us.r-project.org')"
     - name: Test Ridge Regression
       run: |
         Rscript test/ridge_regression_test.R
