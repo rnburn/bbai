@@ -6,7 +6,7 @@ to build better models.
 
 ## Installation
 
-**peak-engines** supports both OSX and Linux on x86-64.
+**peak-engines** supports both Linux and OSX on x86-64.
 
 ### Python
 
@@ -19,13 +19,13 @@ pip install peak-engines
 Linux:
 ```
 R --slave -e "install.packages( \
- 'https://github.com/rnburn/peak-engines/releases/download/v0.2.7/PeakEngines-linux_0.2.7.tar.gz')"
+ 'https://github.com/rnburn/peak-engines/releases/download/v0.2.8/PeakEngines-linux_0.2.8.tar.gz')"
 ```
 
 OSX:
 ```
 R --slave -e "install.packages( \
- 'https://github.com/rnburn/peak-engines/releases/download/v0.2.7/PeakEngines-osx_0.2.7.tar.gz')"
+ 'https://github.com/rnburn/peak-engines/releases/download/v0.2.8/PeakEngines-osx_0.2.8.tar.gz')"
 ```
 
 ## Tune Hyperparameters to Optimize Approximate Leave-one-out Cross-validation for GLMs
