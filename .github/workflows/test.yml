@@ -85,7 +85,7 @@ jobs:
         Rscript test/ridge_regression_test.R
     - name: Test Logistic Regression
       run: |
-        echo
+        Rscript test/logistic_regression_test.R
 
   osx-r:
     runs-on: macos-latest
@@ -101,4 +101,4 @@ jobs:
         Rscript test/ridge_regression_test.R
     - name: Test Logistic Regression
       run: |
-        echo
+        Rscript test/logistic_regression_test.R
