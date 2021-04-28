@@ -7,8 +7,6 @@ Precisely and Efficiently Tune Models to Make Better Predictions
 
 **bbai** supports both Linux and OSX on x86-64.
 
-### Python
-
 ```
 pip install bbai
 ```
