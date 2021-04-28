@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [2.7, 3.5]
+        python-version: [3.5]
 
     steps:
     - uses: actions/checkout@v2
@@ -20,27 +20,28 @@ jobs:
         python -m pip install --upgrade pip
         cd wheel
         if [ `python --version 2>&1 | cut -c8` == "2" ]; then
-          pip install peak_engines-*-cp27-cp27mu-manylinux1_x86_64.whl
+          pip install peak_engines-*-manylinux1_x86_64.whl
         else
-          pip install peak_engines-*-cp32-abi3-manylinux1_x86_64.whl
+          pip install peak_engines-*-manylinux1_x86_64.whl
         fi
+        pip install pytest
         pip install scikit-learn
         pip install scipy
-    - name: Test Warped Linear Regression
-      run: |
-        python test/warped_linear_regression_test.py
     - name: Test Ridge Regression
       run: |
         python test/ridge_regression_test.py
     - name: Test Logistic Regression
       run: |
-        python test/logistic_regression_test.py
+        python test/binary_logistic_regression_test.py
+    - name: Test Multinomial Logistic Regression
+      run: |
+        python test/multinomial_logistic_regression_test.py
 
   osx-python:
     runs-on: macos-latest
     strategy:
       matrix:
-        python-version: [2.7, 3.5]
+        python-version: [3.5]
 
     steps:
     - uses: actions/checkout@v2
@@ -53,54 +54,19 @@ jobs:
         python -m pip install --upgrade pip
         cd wheel
         if [ `python --version 2>&1 | cut -c8` == "2" ]; then
-          pip install peak_engines-*-cp27-cp27m-macosx_10_9_intel.whl
+          pip install peak_engines-*-macosx_10_9_intel.whl
         else
-          pip install peak_engines-*-cp32-abi3-macosx_10_9_intel.whl
+          pip install peak_engines-*-macosx_10_9_intel.whl
         fi
+        pip install pytest
         pip install scikit-learn
         pip install scipy
-    - name: Test Warped Linear Regression
-      run: |
-        python test/warped_linear_regression_test.py
     - name: Test Ridge Regression
       run: |
         python test/ridge_regression_test.py
     - name: Test Logistic Regression
       run: |
-        python test/logistic_regression_test.py
-
-  linux-r:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install dependencies
+        python test/binary_logistic_regression_test.py
+    - name: Test Multinomial Logistic Regression
       run: |
-        sudo apt-get update
-        sudo apt-get install --no-install-recommends --no-install-suggests -y \
-                r-base
-        sudo R CMD INSTALL package/PeakEngines-linux*
-        sudo R -e "install.packages('mlbench', repos = 'http://cran.us.r-project.org')"
-    - name: Test Ridge Regression
-      run: |
-        Rscript test/ridge_regression_test.R
-    - name: Test Logistic Regression
-      run: |
-        Rscript test/logistic_regression_test.R
-
-  osx-r:
-    runs-on: macos-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: |
-        brew install r
-        R CMD INSTALL package/PeakEngines-osx*
-        R -e "install.packages('mlbench', repos = 'http://cran.us.r-project.org')"
-    - name: Test Ridge Regression
-      run: |
-        Rscript test/ridge_regression_test.R
-    - name: Test Logistic Regression
-      run: |
-        Rscript test/logistic_regression_test.R
+        python test/multinomial_logistic_regression_test.py
