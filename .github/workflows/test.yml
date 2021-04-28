@@ -20,9 +20,9 @@ jobs:
         python -m pip install --upgrade pip
         cd wheel
         if [ `python --version 2>&1 | cut -c8` == "2" ]; then
-          pip install peak_engines-*-manylinux1_x86_64.whl
+          pip install bbai-*-manylinux1_x86_64.whl
         else
-          pip install peak_engines-*-manylinux1_x86_64.whl
+          pip install bbai-*-manylinux1_x86_64.whl
         fi
         pip install pytest
         pip install scikit-learn
@@ -54,9 +54,9 @@ jobs:
         python -m pip install --upgrade pip
         cd wheel
         if [ `python --version 2>&1 | cut -c8` == "2" ]; then
-          pip install peak_engines-*-macosx_10_9_intel.whl
+          pip install bbai-*-macosx_10_9_intel.whl
         else
-          pip install peak_engines-*-macosx_10_9_intel.whl
+          pip install bbai-*-macosx_10_9_intel.whl
         fi
         pip install pytest
         pip install scikit-learn
