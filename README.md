@@ -15,6 +15,7 @@ pip install bbai
 
 * [buildingblock.ai](https://buildingblock.ai/)
 * [Getting Started](https://buildingblock.ai/get-started)
+* [Logistic Regression Guide](https://buildingblock.ai/logistic-regression-guide)
 * [Reference](https://buildingblock.ai/bbai.glm)
 
 
