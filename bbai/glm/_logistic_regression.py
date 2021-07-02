@@ -2,6 +2,15 @@ from .._computation._computation_handle import get_computation_handle
 
 import numpy as np
 
+def _get_hyperparameters(penalty, C, alpha, beta):
+    if C is None and alpha is None:
+        return np.array([])
+    if penalty != 'elasticnet':
+        if alpha:
+            return np.array([np.sqrt(alpha)])
+        return np.array([1 / np.sqrt(2 * C)])
+    return np.array([np.sqrt(alpha), np.sqrt(beta)])
+
 class LogisticRegression(object):
     """Implements logistic regression with regularizers fit so
     as to maximize performance on approximate leave-one-out cross-validation.
@@ -47,6 +56,8 @@ class LogisticRegression(object):
             penalty='l2',
             active_classes = 'auto',
             C=None,
+            alpha=None, beta=None,
+            weights0=None,
             tolerance=0.0001):
         self.params_ = {}
         self._handle = get_computation_handle()
@@ -56,6 +67,9 @@ class LogisticRegression(object):
                 penalty=penalty,
                 active_classes=active_classes,
                 C=C,
+                alpha=alpha,
+                beta=beta,
+                weights0=weights0,
                 tolerance=tolerance
         )
         if tolerance <= 0:
@@ -80,31 +94,37 @@ class LogisticRegression(object):
         if self._loss_link == 'multinomial_logistic_m1':
             self._num_active_classes -= 1
         C = self.params_['C']
-        hyperparameters = np.array([])
-        if C:
-            hyperparameters = np.array([1 / np.sqrt(2 * C)])
-        hyperparameters, weights, intercepts = self._handle.fit_glm(
-                loss_link = self._loss_link,
-                regularizer = self.params_['penalty'],
-                normalize = self.params_['normalize'],
-                fit_intercept = self.params_['fit_intercept'],
-                X = X,
-                y = y,
-                hyperparameters = hyperparameters,
+        penalty = self.params_['penalty']
+        alpha = self.params_['alpha']
+        beta = self.params_['beta']
+        hyperparameters = _get_hyperparameters(penalty, C, alpha, beta)
+        response = self._handle.fit_glm(
+            loss_link = self._loss_link,
+            regularizer = penalty,
+            normalize = self.params_['normalize'],
+            fit_intercept = self.params_['fit_intercept'],
+            weights0 = self.params_['weights0'],
+            X = X,
+            y = y,
+            hyperparameters = hyperparameters,
         )
-        self.coef_ = weights.T
-        self.intercept_ = intercepts
+        self.aloocv_ = response.aloocv
+        self.aloocvs_ = response.aloocvs
+        self.coef_ = response.weights
+        self.intercept_ = response.intercepts
+        self.raw_weights_ = response.raw_weights
         if self._num_active_classes == 1:
             # we invert so as to match the conventional way of representing weights
             self.coef_ = -self.coef_
             self.intercept_ = -self.intercept_
         penalty = self.params_['penalty']
-        if penalty == 'l2':
-            Cs = 0.5 / hyperparameters ** 2
-            if len(Cs) == 1:
-                self.C_ = Cs[0]
-            else:
-                self.C_ = Cs
+
+        if penalty == 'l2' or penalty == 'l1':
+            self.alpha_ = response.hyperparameters[0] ** 2
+            self.C_ = 0.5 / self.alpha_
+        elif penalty == 'elasticnet':
+            self.alpha_ = response.hyperparameters[0] ** 2
+            self.beta_ = response.hyperparameters[1] ** 2
 
 
     def predict(self, X):

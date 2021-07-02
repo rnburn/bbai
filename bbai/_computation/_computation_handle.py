@@ -1,5 +1,6 @@
 from ._fit_glm_request import make_fit_glm_request
-from ._response import read_response
+from ._response_serialization import read_response
+from . import _response
 
 import tempfile
 import subprocess
@@ -48,7 +49,10 @@ class ComputationHandle(object):
     def fit_glm(self, **kwargs):
         request = make_fit_glm_request(**kwargs)
         self._sock.sendall(request)
-        return read_response(self._sock)
+        response = read_response(self._sock)
+        if type(response) == _response.ErrorResponse:
+            raise RuntimeError(response.message)
+        return response
 
 _handle = None
 
