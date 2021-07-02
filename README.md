@@ -18,6 +18,9 @@ pip install bbai
 * [Logistic Regression Guide](https://buildingblock.ai/logistic-regression-guide)
 * [Reference](https://buildingblock.ai/bbai.glm)
 
+## Documentation
+
+* [01-digits](https://buildingblock.ai/multinomial-logistic-regression-example): Fit a multinomial logistic regression to predict digits.
 
 ## Articles
 
