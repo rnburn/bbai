@@ -1,4 +1,4 @@
-# peak-engines 
+# bbai
 ![](https://github.com/rnburn/peak-engines/workflows/CI/badge.svg) [![PyPI version](https://img.shields.io/pypi/v/bbai.svg)](https://badge.fury.io/py/bbai) [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/) [![API Reference](http://img.shields.io/badge/api-reference-blue.svg)](https://buildingblock.ai/bbai.glm)
 
 Precisely and Efficiently Tune Models to Make Better Predictions
