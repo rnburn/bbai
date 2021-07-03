@@ -20,7 +20,7 @@ pip install bbai
 
 ## Examples
 
-* [01-digits](https://buildingblock.ai/multinomial-logistic-regression-example): Fit a multinomial logistic regression to predict digits.
+* [01-digits](https://buildingblock.ai/multinomial-logistic-regression-example): Fit a multinomial logistic regression model to predict digits.
 
 ## Articles
 
