@@ -13,6 +13,14 @@ fit_glm_fields = [
 FitGlmResponse = namedtuple('FitGlmResponse', fit_glm_fields)
 FitGlmResponse.__new__.__defaults__ = (None,) * len(fit_glm_fields)
 
+fit_bayesian_glm_fields = [
+    'weight_mean_vector',
+    'weight_covariance_matrix',
+    'noise_variance_mean',
+]
+FitBayesianGlmResponse = namedtuple('FitBayesianGlmResponse', fit_bayesian_glm_fields)
+FitBayesianGlmResponse.__new__.__defaults__ = (None,) * len(fit_bayesian_glm_fields)
+
 fit_sparse_glm_fields = [
     'hyperparameters',
     'aloocv',

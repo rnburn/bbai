@@ -37,7 +37,6 @@ class RidgeRegression(object):
             self,
             fit_intercept=True,
             normalize=False,
-            penalty='l2',
             alpha=None,
             tolerance=0.0001):
         self.params_ = {}
@@ -45,7 +44,6 @@ class RidgeRegression(object):
         self.set_params(
                 fit_intercept=fit_intercept,
                 normalize=normalize,
-                penalty=penalty,
                 alpha=alpha,
                 tolerance=tolerance
         )
@@ -70,7 +68,7 @@ class RidgeRegression(object):
             hyperparameters = np.array([np.sqrt(alpha)])
         response = self._handle.fit_glm(
                 loss_link = self._loss_link,
-                regularizer = self.params_['penalty'],
+                regularizer = 'l2',
                 normalize = self.params_['normalize'],
                 fit_intercept = self.params_['fit_intercept'],
                 X = X,
@@ -79,9 +77,7 @@ class RidgeRegression(object):
         )
         self.coef_ = response.weights[0, :]
         self.intercept_ = response.intercepts[0]
-        penalty = self.params_['penalty']
-        if penalty == 'l2':
-            self.alpha_ = response.hyperparameters[0] ** 2
+        self.alpha_ = response.hyperparameters[0] ** 2
 
     def predict(self, X):
         """Predict target values."""

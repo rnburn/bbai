@@ -1,5 +1,6 @@
 import struct
 import scipy
+import scipy.sparse
 import numpy as np
 
 class Reader(object):
@@ -57,6 +58,14 @@ class Reader(object):
         n = self.read_uint64()
         result = self.read_doubles(m*n)
         return result.reshape((m, n), order='F')
+
+    def read_symmetric_matrix(self):
+        res = self.read_matrix()
+        n = res.shape[0]
+        for i in range(n):
+            for j in range(i+1, n):
+                res[i, j] = res[j, i]
+        return res
 
     def read_sparse_matrix(self):
         m = self.read_uint64()

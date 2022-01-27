@@ -1,4 +1,4 @@
-from ._fit_glm_request import make_fit_glm_request
+from ._fit_glm_request import make_fit_glm_request, make_fit_bayesian_glm_request
 from ._response_serialization import read_response
 from . import _response
 
@@ -48,6 +48,14 @@ class ComputationHandle(object):
 
     def fit_glm(self, **kwargs):
         request = make_fit_glm_request(**kwargs)
+        self._sock.sendall(request)
+        response = read_response(self._sock)
+        if type(response) == _response.ErrorResponse:
+            raise RuntimeError(response.message)
+        return response
+
+    def fit_bayesian_glm(self, **kwargs):
+        request = make_fit_bayesian_glm_request(**kwargs)
         self._sock.sendall(request)
         response = read_response(self._sock)
         if type(response) == _response.ErrorResponse:
