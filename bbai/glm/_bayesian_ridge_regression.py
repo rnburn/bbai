@@ -51,9 +51,18 @@ class BayesianRidgeRegression(object):
                 y = y,
         )
         self.weight_mean_vector_ = response.weight_mean_vector
+        self.coef_ = self.weight_mean_vector_
         self.weight_covariance_matrix_ = response.weight_covariance_matrix
         self.noise_variance_mean_ = response.noise_variance_mean
 
-    def predict(self, X):
+    def predict(self, X, return_std=False):
         """Predict target values."""
-        return np.dot(X, self.weight_mean_vector_) + self.intercept_
+        y_pred = np.dot(X, self.weight_mean_vector_) + self.intercept_
+        if not return_std:
+            return y_pred
+        y_stddev = np.zeros(len(y_pred))
+        for i, xi in enumerate(X):
+            y_stddev[i] = self.noise_variance_mean_
+            y_stddev[i] += np.dot(xi, np.dot(self.weight_covariance_matrix_, xi))
+            y_stddev[i] = np.sqrt(y_stddev[i])
+        return y_pred, y_stddev
