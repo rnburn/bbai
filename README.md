@@ -66,7 +66,7 @@ model.fit(X, y)
 ## How it works
 * [Optimizing Approximate Leave-one-out Cross-validation to Tune Hyperparameters](https://arxiv.org/abs/2011.10218)
 * [An Algorithm for Bayesian Ridge Regression with Full Hyperparameter Integration](https://buildingblock.ai/bayesian-ridge-regression)
-* 
+
 ## Examples
 
 * [01-digits](https://buildingblock.ai/multinomial-logistic-regression-example): Fit a multinomial logistic regression model to predict digits.
