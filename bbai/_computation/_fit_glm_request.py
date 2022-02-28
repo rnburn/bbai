@@ -43,6 +43,15 @@ def make_fit_glm_request(
     writer.prepend_header()
     return writer.tobytes()
 
+def make_fit_glm_map_request(X, y):
+    writer = Writer()
+    writer.write_uint8(2) # request_type
+    writer.write_matrix(X)
+    writer.write_vector(y)
+
+    writer.prepend_header()
+    return writer.tobytes()
+
 def make_fit_bayesian_glm_request(
         X, y):
     writer = Writer()

@@ -33,6 +33,9 @@ jobs:
     - name: Test Logistic Regression
       run: |
         python test/binary_logistic_regression_test.py
+    - name: Test Logistic Regression MAP
+      run: |
+        python test/logistic_regression_map_test.py
     - name: Test Multinomial Logistic Regression
       run: |
         python test/multinomial_logistic_regression_test.py
@@ -67,6 +70,9 @@ jobs:
     - name: Test Logistic Regression
       run: |
         python test/binary_logistic_regression_test.py
+    - name: Test Logistic Regression MAP
+      run: |
+        python test/logistic_regression_map_test.py
     - name: Test Multinomial Logistic Regression
       run: |
         python test/multinomial_logistic_regression_test.py

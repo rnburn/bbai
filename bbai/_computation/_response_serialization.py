@@ -27,6 +27,15 @@ def read_fit_glm_response(reader):
     )
     return result
 
+def read_fit_glm_map_response(reader):
+    weights = reader.read_vector()
+    hessian = reader.read_symmetric_matrix()
+    result = _response.FitGlmMAPResponse(
+        weights = weights,
+        hessian = hessian,
+    )
+    return result
+
 def read_fit_bayesian_glm_response(reader):
     weight_mean_vector = reader.read_vector()
     weight_covariance_matrix = reader.read_symmetric_matrix()
@@ -70,6 +79,8 @@ def read_response(sock):
         result = read_fit_sparse_glm_response(reader)
     elif tp == 3:
         result = read_fit_bayesian_glm_response(reader)
+    elif tp == 4:
+        result = read_fit_glm_map_response(reader)
     else:
         assert False, "unknown response type"
     return result
