@@ -70,6 +70,7 @@ model.fit(X, y)
 ## Examples
 
 * [01-digits](https://buildingblock.ai/multinomial-logistic-regression-example): Fit a multinomial logistic regression model to predict digits.
+* [02-iris](example/02-iris.py): Fit a multinomial logistic regression model to the Iris data set.
 
 ## Documentation
 
