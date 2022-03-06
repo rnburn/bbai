@@ -21,6 +21,7 @@ pip install bbai
 
 ## Usage
 
+### Ridge Regression
 Fit a ridge regression model with the regularization parameter *exactly* set so as to minimize mean squared error on a leave-one-out cross-validation of the training data set
 ```python
 # load example data set
@@ -35,6 +36,7 @@ model = RidgeRegression()
 model.fit(X, y)
 ```
 
+### Logistic Regression
 Fit a logistic regression model with the regularization parameter *exactly* set so as to maximize likelihood on an approximate leave-one-out cross-validation of the training data set
 ```python
 # load example data set
@@ -49,6 +51,7 @@ model = LogisticRegression()
 model.fit(X, y)
 ```
 
+### Bayesian Ridge Regression
 Fit a Bayesian ridge regression model where the hyperparameter controlling the regularization strength is integrated over.
 ```python
 # load example data set
@@ -60,6 +63,21 @@ X = StandardScaler().fit_transform(X)
 # fit model
 from bbai.glm import BayesianRidgeRegression
 model = BayesianRidgeRegression()
+model.fit(X, y)
+```
+
+### MAP Logistic Regression with Jeffreys Prior
+Fit a logistic regression MAP model with Jeffreys prior.
+```python
+# load example data set
+from sklearn.datasets import load_breast_cancer
+from sklearn.preprocessing import StandardScaler
+X, y = load_breast_cancer(return_X_y=True)
+X = StandardScaler().fit_transform(X)
+
+# fit model
+from bbai.glm import LogisticRegressionMAP
+model = LogisticRegressionMAP()
 model.fit(X, y)
 ```
 
