@@ -91,8 +91,8 @@ model.fit(X, y)
 * [02-iris](example/02-iris.py): Fit a multinomial logistic regression model to the Iris data set.
 * [03-bayesian](example/03-bayesian.py): Fit a Bayesian ridge regression model with hyperparameter integration.
 * [04-curve-fitting](example/04-curve-fitting.ipynb): Fit a Bayesian ridge regression model with hyperparameter integration.
-* [05-jeffreys1](example/05-jeffreys1.ipynb): Fit an logistic regression MAP model with Jeffreys prior and a single regressor.
-* [06-jeffreys2](example/06-jeffreys2.ipynb): Fit an logistic regression MAP model with Jeffreys prior and two regressors.
+* [05-jeffreys1](example/05-jeffreys1.ipynb): Fit a logistic regression MAP model with Jeffreys prior and a single regressor.
+* [06-jeffreys2](example/06-jeffreys2.ipynb): Fit a logistic regression MAP model with Jeffreys prior and two regressors.
 
 ## Documentation
 
