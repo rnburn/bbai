@@ -66,7 +66,7 @@ model = BayesianRidgeRegression()
 model.fit(X, y)
 ```
 
-### MAP Logistic Regression with Jeffreys Prior
+### Logistic Regression MAP with Jeffreys Prior
 Fit a logistic regression MAP model with Jeffreys prior.
 ```python
 # load example data set
