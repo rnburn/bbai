@@ -93,7 +93,7 @@ model.fit(X, y)
 * [04-curve-fitting](example/04-curve-fitting.ipynb): Fit a Bayesian ridge regression model with hyperparameter integration.
 * [05-jeffreys1](example/05-jeffreys1.ipynb): Fit a logistic regression MAP model with Jeffreys prior and a single regressor.
 * [06-jeffreys2](example/06-jeffreys2.ipynb): Fit a logistic regression MAP model with Jeffreys prior and two regressors.
-* [07-jeffreys-breast-cancer](example/07-jeffreys-breast-cancer.ipynb): Fit a logistic regression MAP model with Jeffreys prior to the breast cancer data set.
+* [07-jeffreys-breast-cancer](example/07-jeffreys-breast-cancer.py): Fit a logistic regression MAP model with Jeffreys prior to the breast cancer data set.
 
 ## Documentation
 
