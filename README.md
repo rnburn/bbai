@@ -72,8 +72,8 @@ model.fit(X, y)
 * [01-digits](https://buildingblock.ai/multinomial-logistic-regression-example): Fit a multinomial logistic regression model to predict digits.
 * [02-iris](example/02-iris.py): Fit a multinomial logistic regression model to the Iris data set.
 * [03-bayesian](example/03-bayesian.py): Fit a Bayesian ridge regression model with hyperparameter integration.
-* [04-curve-fitting](example/04-curve-fitting.py): Fit a Bayesian ridge regression model with hyperparameter integration.
-* [05-jeffreys-sim-var1](example/05-jeffreys-sim-var1.py): Fit an MAP logistic regression model with Jeffreys prior. Plot out the prior and posterior distributions.
+* [04-curve-fitting](example/04-curve-fitting.ipynb): Fit a Bayesian ridge regression model with hyperparameter integration.
+* [05-jeffreys-sim-var1](example/05-jeffreys-sim-var1.ipynb): Fit an MAP logistic regression model with Jeffreys prior. Plot out the prior and posterior distributions.
 
 ## Documentation
 
