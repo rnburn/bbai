@@ -24,13 +24,13 @@ w_map = list(model.coef_[0])
 w_map.append(model.intercept_[0])
 
 # Step 3: Compute standard error measurements based off of the Fisher information matrix
-s_map = np.sqrt(np.diag(model.laplace_covariance_matrix_))
+stderr = np.sqrt(np.diag(model.laplace_covariance_matrix_))
 
 # Step 4: Print out the weights along with their corresponding standard error.
 max_len = max([len(s) for s in features])
 fmt = '%-' + str(max_len) + 's'
 for j in range(p+1):
-    print(fmt % features[j], '%f (%f)' % (w_map[j], s_map[j]))
+    print(fmt % features[j], '%f (%f)' % (w_map[j], stderr[j]))
 
 # Prints out
 #
