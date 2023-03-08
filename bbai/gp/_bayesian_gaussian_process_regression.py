@@ -84,10 +84,10 @@ class BayesianGaussianProcessRegression:
 
     def fit(self, sample_matrix, y, design_matrix=None):
         """Fit the model to the training data."""
-        sample_matrix = np.array(sample_matrix, dtype=np.float)
-        y = np.array(y, dtype=np.float)
+        sample_matrix = np.array(sample_matrix, dtype=np.float64)
+        y = np.array(y, dtype=np.float64)
         if not design_matrix is None:
-            design_matrix = np.array(design_matrix, dtype=np.float)
+            design_matrix = np.array(design_matrix, dtype=np.float64)
         else:
             design_matrix = np.zeros((0, 0))
         validate_problem(sample_matrix, design_matrix, y)
@@ -138,9 +138,9 @@ class BayesianGaussianProcessRegression:
 
     def predict(self, sample_matrix, design_matrix=None, with_pdf=False):
         """Predict target values."""
-        sample_matrix = np.array(sample_matrix, dtype=np.float)
+        sample_matrix = np.array(sample_matrix, dtype=np.float64)
         if design_matrix is not None:
-            design_matrix = np.array(design_matrix, dtype=np.float)
+            design_matrix = np.array(design_matrix, dtype=np.float64)
         else:
             design_matrix = np.zeros((len(sample_matrix), 0))
         response = self._handle.predict_bayesian_gp_regression(

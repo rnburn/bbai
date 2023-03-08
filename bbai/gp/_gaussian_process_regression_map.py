@@ -60,10 +60,10 @@ class GaussianProcessRegressionMAP(object):
 
     def fit(self, sample_matrix, y, design_matrix=None):
         """Fit the model to the training data."""
-        sample_matrix = np.array(sample_matrix, dtype=np.float)
-        y = np.array(y, dtype=np.float)
+        sample_matrix = np.array(sample_matrix, dtype=np.float64)
+        y = np.array(y, dtype=np.float64)
         if not design_matrix is None:
-            design_matrix = np.array(design_matrix, dtype=np.float)
+            design_matrix = np.array(design_matrix, dtype=np.float64)
         else:
             design_matrix = np.zeros((0, 0))
         length0 = self.params_['length0']
@@ -88,9 +88,9 @@ class GaussianProcessRegressionMAP(object):
 
     def predict(self, sample_matrix, design_matrix=None, with_pdf=False):
         """Predict target values."""
-        sample_matrix = np.array(sample_matrix, dtype=np.float)
+        sample_matrix = np.array(sample_matrix, dtype=np.float64)
         if not design_matrix is None:
-            design_matrix = np.array(design_matrix, dtype=np.float)
+            design_matrix = np.array(design_matrix, dtype=np.float64)
         else:
             design_matrix = np.zeros((0, 0))
         response = self._handle.predict_gp_regression_map(

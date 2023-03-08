@@ -19,7 +19,7 @@ def make_fit_gp_regression_map_request(
     writer.write_uint8(3) # request_type
 
     writer.write_uint8(encode_covariance_function(covariance_function.name_))
-    writer.write_vector(np.array(covariance_function.params_, dtype=np.float))
+    writer.write_vector(np.array(covariance_function.params_, dtype=np.float64))
 
     writer.write_matrix(sample_matrix)
     writer.write_matrix(design_matrix)
@@ -38,7 +38,7 @@ def make_fit_bayesian_gp_regression_request(
     writer.write_uint8(5) # request_type
 
     writer.write_uint8(encode_covariance_function(covariance_function.name_))
-    writer.write_vector(np.array(covariance_function.params_, dtype=np.float))
+    writer.write_vector(np.array(covariance_function.params_, dtype=np.float64))
 
     writer.write_matrix(sample_matrix)
     writer.write_matrix(design_matrix)
@@ -64,7 +64,7 @@ def make_predict_gp_regression_map_request(
     writer.write_double(prediction_b_value)
 
     writer.write_uint8(encode_covariance_function(covariance_function.name_))
-    writer.write_vector(np.array(covariance_function.params_, dtype=np.float))
+    writer.write_vector(np.array(covariance_function.params_, dtype=np.float64))
 
     writer.write_vector(hyperparameter_vector)
     writer.write_matrix(train_sample_matrix)
@@ -95,7 +95,7 @@ def make_predict_bayesian_gp_regression_request(
     writer.write_uint8(6) # request_type
 
     writer.write_uint8(encode_covariance_function(covariance_function.name_))
-    writer.write_vector(np.array(covariance_function.params_, dtype=np.float))
+    writer.write_vector(np.array(covariance_function.params_, dtype=np.float64))
 
     writer.write_matrix(train_sample_matrix)
     writer.write_matrix(sample_matrix)

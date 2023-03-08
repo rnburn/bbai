@@ -52,7 +52,7 @@ class LogisticRegressionMAP(object):
 
     def fit(self, X, y):
         """Fit the model to the training data."""
-        y = np.array(y, dtype=np.float)
+        y = np.array(y, dtype=np.float64)
         for yi in y:
             if yi != 0 and yi != 1:
                 raise RuntimeError('y must be 0 or 1')
