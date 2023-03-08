@@ -38,3 +38,48 @@ fit_sparse_glm_fields = [
 ]
 FitSparseGlmResponse = namedtuple('FitSparseGlmResponse', fit_sparse_glm_fields)
 FitSparseGlmResponse.__new__.__defaults__ = (None,) * len(fit_sparse_glm_fields)
+
+fit_gp_regression_map_fields = [
+        'length',
+        'noise_ratio',
+        'prediction_b_value',
+        'hessian',
+        'intermediate1_prediction_vector',
+        'intermediate2_prediction_matrix',
+        'beta_vector',
+        'packed_gl_matrix',
+]
+FitGpRegressionMapResponse = namedtuple('FitGpRegressionMapResponse', fit_gp_regression_map_fields)
+FitGpRegressionMapResponse.__new__.__defaults__ = (None,) * len(fit_gp_regression_map_fields)
+
+predict_gp_regression_map_fields = [
+        'log_pdf_normalizer',
+        'prediction_mean_vector',
+        'prediction_packed_r22l_matrix',
+]
+PredictGpRegressionMapResponse = namedtuple('PredictGpRegressionMapResponse', predict_gp_regression_map_fields)
+PredictGpRegressionMapResponse.__new__.__defaults__ = (None,) * len(predict_gp_regression_map_fields)
+
+fit_bayesian_gp_regression_fields = [
+        'log_length',
+        'log_noise_ratio',
+        'weight_vector',
+        's2_vector',
+        'predictor',
+        'hyperparameter_matrix',
+        'marginal_point_vector',
+        'marginal_integral_point_vector',
+        'marginal_log_length',
+        'marginal_log_noise_ratio',
+]
+FitBayesianGpRegressionResponse = namedtuple('FitBayesianGpRegressionResponse', fit_bayesian_gp_regression_fields)
+FitBayesianGpRegressionResponse.__new__.__defaults__ = (None,) * len(fit_bayesian_gp_regression_fields)
+
+predict_bayesian_gp_regression_fields = [
+        'prediction_mean_vector',
+        'pdf_b_vector',
+        'pdf_matrix',
+]
+PredictBayesianGpRegressionResponse = namedtuple(
+        'PredictBayesianGpRegressionResponse', predict_bayesian_gp_regression_fields)
+PredictBayesianGpRegressionResponse.__new__.__defaults__ = (None,) * len(predict_bayesian_gp_regression_fields)

@@ -33,6 +33,12 @@ class Reader(object):
         self.buf_ = self.buf_[8:]
         return x[0]
 
+    def read_blob(self):
+        n = self.read_uint64()
+        result = self.buf_[:n]
+        self.buf_ = self.buf_[n:]
+        return result
+
     def read_doubles(self, n):
         size = n*8
         result = np.frombuffer(self.buf_[:size], dtype=np.float64)

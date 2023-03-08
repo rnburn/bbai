@@ -39,6 +39,12 @@ jobs:
     - name: Test Multinomial Logistic Regression
       run: |
         python test/multinomial_logistic_regression_test.py
+    - name: Test Gaussian Process Regression MAP
+      run: |
+        python test/gaussian_process_regression_map_test.py
+    - name: Test Bayesian Gaussian Process Regression
+      run: |
+        python test/bayesian_gaussian_process_test.py
 
   osx-python:
     runs-on: macos-latest
@@ -76,3 +82,9 @@ jobs:
     - name: Test Multinomial Logistic Regression
       run: |
         python test/multinomial_logistic_regression_test.py
+    - name: Test Gaussian Process Regression MAP
+      run: |
+        python test/gaussian_process_regression_map_test.py
+    - name: Test Bayesian Gaussian Process Regression
+      run: |
+        python test/bayesian_gaussian_process_test.py

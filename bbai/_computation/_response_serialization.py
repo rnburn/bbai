@@ -7,6 +7,13 @@ from ._reader import Reader
 import struct
 import numpy as np
 
+def read_marginal(reader):
+    a = reader.read_double()
+    b = reader.read_double()
+    value_vector = reader.read_vector()
+    integral_vector = reader.read_vector()
+    return a, b, value_vector, integral_vector
+
 def read_error_response(reader):
     message = reader.read_string()
     result = _response.ErrorResponse(message)
@@ -64,6 +71,70 @@ def read_fit_sparse_glm_response(reader):
     )
     return result
 
+def read_fit_gp_regression_map_response(reader):
+    length = reader.read_double()
+    noise_ratio = reader.read_double()
+    prediction_b_value = reader.read_double()
+    hessian = reader.read_symmetric_matrix()
+    intermediate1_prediction_vector = reader.read_vector()
+    intermediate2_prediction_matrix = reader.read_matrix()
+    beta_vector = reader.read_vector()
+    packed_gl_matrix = reader.read_vector()
+    return _response.FitGpRegressionMapResponse(
+            length = length,
+            noise_ratio = noise_ratio,
+            prediction_b_value = prediction_b_value,
+            hessian = hessian,
+            intermediate1_prediction_vector = intermediate1_prediction_vector,
+            intermediate2_prediction_matrix = intermediate2_prediction_matrix,
+            beta_vector = beta_vector,
+            packed_gl_matrix = packed_gl_matrix,
+    )
+
+def read_predict_gp_regression_map_response(reader):
+    log_pdf_normalizer = reader.read_double()
+    prediction_mean_vector = reader.read_vector()
+    prediction_packed_r22l_matrix = reader.read_vector()
+    return _response.PredictGpRegressionMapResponse(
+            log_pdf_normalizer = log_pdf_normalizer,
+            prediction_mean_vector = prediction_mean_vector,
+            prediction_packed_r22l_matrix = prediction_packed_r22l_matrix,
+    )
+
+def read_fit_bayesian_gp_regression_response(reader):
+    log_length = reader.read_double()
+    log_noise_ratio = reader.read_double()
+    weight_vector = reader.read_vector()
+    s2_vector = reader.read_vector()
+    predictor = reader.read_blob()
+    hyperparameter_matrix = reader.read_matrix()
+    marginal_point_vector = reader.read_vector()
+    marginal_integral_point_vector = reader.read_vector()
+    marginal_log_length = read_marginal(reader)
+    marginal_log_noise_ratio = read_marginal(reader)
+    return _response.FitBayesianGpRegressionResponse(
+            log_length = log_length,
+            log_noise_ratio = log_noise_ratio,
+            weight_vector = weight_vector,
+            s2_vector = s2_vector,
+            predictor = predictor,
+            hyperparameter_matrix = hyperparameter_matrix,
+            marginal_point_vector = marginal_point_vector,
+            marginal_integral_point_vector = marginal_integral_point_vector,
+            marginal_log_length = marginal_log_length,
+            marginal_log_noise_ratio = marginal_log_noise_ratio,
+    )
+
+def read_predict_bayesian_gp_regression_response(reader):
+    prediction_mean_vector = reader.read_vector()
+    pdf_b_vector = reader.read_vector()
+    pdf_matrix = reader.read_matrix()
+    return _response.PredictBayesianGpRegressionResponse(
+            prediction_mean_vector = prediction_mean_vector,
+            pdf_b_vector = pdf_b_vector,
+            pdf_matrix = pdf_matrix,
+    )
+
 def read_response(sock):
     buf = _socket_utility.read(sock, _header.header_size)
     header = _header.Header.read(Reader(buf))
@@ -81,6 +152,14 @@ def read_response(sock):
         result = read_fit_bayesian_glm_response(reader)
     elif tp == 4:
         result = read_fit_glm_map_response(reader)
+    elif tp == 5:
+        result = read_fit_gp_regression_map_response(reader)
+    elif tp == 6:
+        result = read_predict_gp_regression_map_response(reader)
+    elif tp == 7:
+        result = read_fit_bayesian_gp_regression_response(reader)
+    elif tp == 8:
+        result = read_predict_bayesian_gp_regression_response(reader)
     else:
-        assert False, "unknown response type"
+        assert False, "unknown response type: %d" % tp
     return result

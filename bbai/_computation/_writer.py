@@ -23,6 +23,10 @@ class Writer(object):
         self.format_ += 'Q'
         self.args_.append(int(n))
 
+    def write_double(self, x):
+        v = np.array([x], dtype=np.float64)
+        self.write_bytes(v)
+
     def prepend_header(self):
         request_size = struct.calcsize(self.format_)
         self.format_ = '=HQ' + self.format_[1:]
@@ -32,10 +36,14 @@ class Writer(object):
         self.format_ += '%ds' % (array.dtype.itemsize * array.size)
         self.args_.append(array.tobytes(order='F'))
 
-
     def write_vector(self, v):
         self.write_uint64(v.size)
         self.write_bytes(v)
+
+    def write_blob(self, data):
+        self.write_uint64(len(data))
+        self.format_ += '%ds' % len(data)
+        self.args_.append(bytes(data))
 
     def write_matrix(self, m):
         assert len(m.shape) == 2

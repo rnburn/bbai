@@ -1,7 +1,7 @@
 from .._computation._computation_handle import get_computation_handle
 
 import numpy as np
-import scipy
+import scipy.linalg
 
 class LogisticRegressionMAP(object):
     """Implements logistic regression with weights chosen so as to maximize a 
