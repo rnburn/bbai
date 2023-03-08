@@ -1,25 +1,25 @@
 import pytest
 import numpy as np
 import scipy
-from sklearn.datasets import load_boston
+from sklearn.datasets import load_diabetes
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import Ridge as BaselineRidgeRegression
 from bbai.glm import RidgeRegression
 
 @pytest.fixture
-def boston_dataset():
-    X, y = load_boston(return_X_y=True)
+def diabetes_dataset():
+    X, y = load_diabetes(return_X_y=True)
     X = StandardScaler().fit_transform(X)
     return X, y
 
-def test_aloocv_optimization(boston_dataset):
-    X, y = boston_dataset
+def test_aloocv_optimization(diabetes_dataset):
+    X, y = diabetes_dataset
     model = RidgeRegression(tolerance=1.0e-6)
     model.fit(X, y)
-    assert model.alpha_ == pytest.approx(4.680170622758263)
+    assert model.alpha_ == pytest.approx(1.8346384297775313)
 
-def test_against_baseline(boston_dataset):
-    X, y = boston_dataset
+def test_against_baseline(diabetes_dataset):
+    X, y = diabetes_dataset
     alpha = 1.0
     model = RidgeRegression(tolerance=1.0e-6, alpha=alpha)
     model.fit(X, y)
