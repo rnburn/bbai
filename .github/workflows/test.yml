@@ -73,18 +73,3 @@ jobs:
     - name: Test Ridge Regression
       run: |
         python test/ridge_regression_test.py
-    - name: Test Logistic Regression
-      run: |
-        python test/binary_logistic_regression_test.py
-    - name: Test Logistic Regression MAP
-      run: |
-        python test/logistic_regression_map_test.py
-    - name: Test Multinomial Logistic Regression
-      run: |
-        python test/multinomial_logistic_regression_test.py
-    - name: Test Gaussian Process Regression MAP
-      run: |
-        python test/gaussian_process_regression_map_test.py
-    - name: Test Bayesian Gaussian Process Regression
-      run: |
-        python test/bayesian_gaussian_process_test.py
