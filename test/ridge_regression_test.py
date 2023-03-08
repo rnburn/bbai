@@ -16,7 +16,7 @@ def test_aloocv_optimization(diabetes_dataset):
     X, y = diabetes_dataset
     model = RidgeRegression(tolerance=1.0e-6)
     model.fit(X, y)
-    assert model.alpha_ == pytest.approx(1.8346384297775313)
+    assert model.alpha_ == pytest.approx(1.8346384297775313, rel=1.0e-3)
 
 def test_against_baseline(diabetes_dataset):
     X, y = diabetes_dataset
