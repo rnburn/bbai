@@ -20,7 +20,7 @@ class RbfCovarianceFunction:
                 l1 = location_matrix[s, :]
                 l2 = location_matrix[t, :]
                 d2 = np.linalg.norm(l1 - l2)**2
-                k = np.exp(-d2 / theta**2)
+                k = np.exp(-0.5 * d2 / theta**2)
                 res[s, t] = k
                 res[t, s] = k
         return res
@@ -33,7 +33,7 @@ class RbfCovarianceFunction:
                 l1 = location_matrix[s, :]
                 l2 = location_matrix[t, :]
                 d2 = np.linalg.norm(l1 - l2)**2
-                dk = 2 * d2 * np.exp(-d2 / theta**2) / theta**3
+                dk = d2 * np.exp(-0.5*d2 / theta**2) / theta**3
                 res[s, t] = dk
                 res[t, s] = dk
         return res

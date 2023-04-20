@@ -66,14 +66,23 @@ class BayesianRegressionPDF(object):
     def ppf(self, p):
         assert 0 < p and p < 1
         def f(t):
-            if t <= 0.0:
-                return -p
             return self.cdf(t) - p
         def fp(t):
             return self.pdf(t)
+        step = 1
+        low = self.mean_ - step
+        while self.cdf(low) > p:
+            step *= 2
+            low -= step
+        step = 1
+        high = self.mean_ + step
+        while self.cdf(high) < p:
+            step *= 2
+            high += step
         res = root_scalar(
                 f,
                 x0 = self.mean_,
+                bracket = (low, high),
                 fprime = fp,
         )
         return res.root

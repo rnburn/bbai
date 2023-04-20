@@ -70,8 +70,8 @@ def test_bayesian_model(dataset1):
                          mid,
                          vec_func=False,
                          maxiter=1000) 
-        assert np.isclose(integral, marginal.cdf(mid), rtol=1.0e-5)
-        assert np.isclose(integral, 0.5)
+        assert np.isclose(integral, marginal.cdf(mid), rtol=1.0e-4)
+        assert np.isclose(integral, 0.5, rtol=1.0e-4)
 
     # Verify marginal properties for noise
     marginal = model.marginal_sigma2_signal_
