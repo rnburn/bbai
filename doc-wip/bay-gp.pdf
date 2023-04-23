@@ -1,0 +1,33 @@
+\documentclass{article}
+
+\usepackage{custommacros}
+
+\begin{document}
+\title{Deterministic Objective Bayesian Inference for Spatial Models}
+
+\author{Ryan Burn \\ email \href{mailto:ryan.burn@gmail.com}{ryan.burn@gmail.com}}
+
+\maketitle
+
+\begin{abstract}
+\cite{bergergp} and \cite{rengp} developed noninformative priors for Gaussian process regression based off
+of the reference prior approach \citep{refprior}. The priors have good statistical properties and provide a basis
+for objective Bayesian analysis \citep{objbay}. This paper and the project \url{https://github.com/rnburn/bbai}
+provide deterministic algorithms to do statistical inference using the priors.
+\end{abstract}
+
+\section{Introduction}
+\input{intro}
+\section{How to Specify Noninformative Priors}
+\input{prior}
+\section{Noninformative Priors for Spatial Models}\label{sec:gpprior}
+\input{spatial-prior}
+\section{Deterministic Bayesian Inference}\label{sec:detalgo}
+\input{detalg}
+\section{Real Data Analysis}
+\input{real-data-analysis}
+\appendix
+\section{Appendix: Posterior Derivatives}\label{appendix:a}
+\input{apx-a}
+\bibliography{algo}
+\end{document}
