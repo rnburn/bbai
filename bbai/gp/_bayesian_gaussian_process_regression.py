@@ -2,6 +2,7 @@ from .._computation._computation_handle import get_computation_handle
 from ._covariance_function import RbfCovarianceFunction
 from ._bayesian_regression_pdf import BayesianRegressionPDF
 from ._marginal import Marginal, LogMarginal
+from ._marginal_regressor import MarginalRegressor
 from ._marginal_sigma2_signal import MarginalSigma2Signal
 from ._problem_validation import validate_problem
 
@@ -90,6 +91,7 @@ class BayesianGaussianProcessRegression:
             design_matrix = np.array(design_matrix, dtype=np.float64)
         else:
             design_matrix = np.zeros((0, 0))
+        num_regressors = design_matrix.shape[1]
         validate_problem(sample_matrix, design_matrix, y)
         length0 = self.params_['length0']
         noise_ratio0 = self.params_['noise_ratio0']
@@ -103,6 +105,7 @@ class BayesianGaussianProcessRegression:
         self.train_sample_matrix_ = sample_matrix
         self.predictor_ = response.predictor
         self.hyperparameter_matrix_ = response.hyperparameter_matrix
+        self.weight_vector_ = response.weight_vector
 
         a, b, value_vector, integral_vector = response.marginal_log_length
         self.marginal_log_length_ = Marginal(
@@ -113,6 +116,18 @@ class BayesianGaussianProcessRegression:
                 value_vector, integral_vector,
         )
         self.marginal_length_ = LogMarginal(self.marginal_log_length_)
+        self.marginal_regressors_ = []
+        for j in range(num_regressors):
+            self.marginal_regressors_.append(
+                    MarginalRegressor(
+                        response.weight_vector,
+                        response.beta_hat_matrix,
+                        response.axi_diagonals,
+                        response.s2_vector,
+                        len(y) - num_regressors,
+                        j
+                    )
+            )
 
         a, b, value_vector, integral_vector = response.marginal_log_noise_ratio
         self.marginal_log_noise_ratio_ = Marginal(
@@ -127,7 +142,7 @@ class BayesianGaussianProcessRegression:
         self.marginal_sigma2_signal_ = MarginalSigma2Signal(
                 response.weight_vector,
                 response.s2_vector,
-                len(y) - design_matrix.shape[1],
+                len(y) - num_regressors,
         )
 
         self.length_mode_ = np.exp(response.log_length)
@@ -164,6 +179,7 @@ class BayesianGaussianProcessRegression:
                     response.pdf_matrix[:, index].reshape((4, num_points), order='F'),
                     num_train - num_regressors,
                     response.prediction_mean_vector[index],
+                    self.weight_vector_,
             )
             pdfs.append(pdf)
         return response.prediction_mean_vector, pdfs

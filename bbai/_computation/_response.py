@@ -65,6 +65,8 @@ fit_bayesian_gp_regression_fields = [
         'log_noise_ratio',
         'weight_vector',
         's2_vector',
+        'axi_diagonals',
+        'beta_hat_matrix',
         'predictor',
         'hyperparameter_matrix',
         'marginal_point_vector',

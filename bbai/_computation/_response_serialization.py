@@ -106,6 +106,8 @@ def read_fit_bayesian_gp_regression_response(reader):
     log_noise_ratio = reader.read_double()
     weight_vector = reader.read_vector()
     s2_vector = reader.read_vector()
+    axi_diagonals = reader.read_matrix()
+    beta_hat_matrix = reader.read_matrix()
     predictor = reader.read_blob()
     hyperparameter_matrix = reader.read_matrix()
     marginal_point_vector = reader.read_vector()
@@ -117,6 +119,8 @@ def read_fit_bayesian_gp_regression_response(reader):
             log_noise_ratio = log_noise_ratio,
             weight_vector = weight_vector,
             s2_vector = s2_vector,
+            axi_diagonals = axi_diagonals,
+            beta_hat_matrix = beta_hat_matrix,
             predictor = predictor,
             hyperparameter_matrix = hyperparameter_matrix,
             marginal_point_vector = marginal_point_vector,
