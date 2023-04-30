@@ -16,7 +16,9 @@ class BayesianRegressionPDF(object):
 
         num_points = len(weight_vector)
         self.scale_vector_ = np.zeros(num_points)
-        for point_index in range(num_points):
+        for point_index, weight in enumerate(weight_vector):
+            if weight == 0:
+                continue
             b = self.pdf_b_vector_[point_index]
             _, _, _, a = self.pdf_matrix_[:, point_index]
             scale = np.sqrt(b / self.df_) / a
