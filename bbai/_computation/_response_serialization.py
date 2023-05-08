@@ -131,12 +131,16 @@ def read_fit_bayesian_gp_regression_response(reader):
 
 def read_predict_bayesian_gp_regression_response(reader):
     prediction_mean_vector = reader.read_vector()
-    pdf_b_vector = reader.read_vector()
     pdf_matrix = reader.read_matrix()
     return _response.PredictBayesianGpRegressionResponse(
             prediction_mean_vector = prediction_mean_vector,
-            pdf_b_vector = pdf_b_vector,
             pdf_matrix = pdf_matrix,
+    )
+
+def read_bayesian_gp_pred_pdf_response(reader):
+    res_vector = reader.read_vector()
+    return _response.BayesianGpPredPdfResponse(
+            res_vector = res_vector,
     )
 
 def read_response(sock):
@@ -164,6 +168,8 @@ def read_response(sock):
         result = read_fit_bayesian_gp_regression_response(reader)
     elif tp == 8:
         result = read_predict_bayesian_gp_regression_response(reader)
+    elif tp == 9:
+        result = read_bayesian_gp_pred_pdf_response(reader)
     else:
         assert False, "unknown response type: %d" % tp
     return result

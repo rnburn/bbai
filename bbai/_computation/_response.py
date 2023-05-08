@@ -79,9 +79,15 @@ FitBayesianGpRegressionResponse.__new__.__defaults__ = (None,) * len(fit_bayesia
 
 predict_bayesian_gp_regression_fields = [
         'prediction_mean_vector',
-        'pdf_b_vector',
         'pdf_matrix',
 ]
 PredictBayesianGpRegressionResponse = namedtuple(
         'PredictBayesianGpRegressionResponse', predict_bayesian_gp_regression_fields)
 PredictBayesianGpRegressionResponse.__new__.__defaults__ = (None,) * len(predict_bayesian_gp_regression_fields)
+
+bayesian_gp_pred_pdf_fields = [
+        'res_vector',
+]
+BayesianGpPredPdfResponse = namedtuple(
+        'BayesianGpPredPdfResponse', bayesian_gp_pred_pdf_fields)
+BayesianGpPredPdfResponse.__new__.__defaults__ = (None,) * len(bayesian_gp_pred_pdf_fields)

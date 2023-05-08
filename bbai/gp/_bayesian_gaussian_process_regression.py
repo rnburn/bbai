@@ -1,6 +1,6 @@
 from .._computation._computation_handle import get_computation_handle
 from ._covariance_function import RbfCovarianceFunction
-from ._bayesian_regression_pdf import BayesianRegressionPDF
+from ._bayesian_regression_pdfs import BayesianRegressionPDFs
 from ._marginal import Marginal, LogMarginal
 from ._marginal_regressor import MarginalRegressor
 from ._marginal_sigma2_signal import MarginalSigma2Signal
@@ -171,16 +171,8 @@ class BayesianGaussianProcessRegression:
         pdfs = []
         num_train = len(self.train_sample_matrix_)
         num_regressors = design_matrix.shape[1]
-        num_test = len(sample_matrix)
-        num_points = len(response.pdf_b_vector)
-        for index in range(num_test):
-            pdf = BayesianRegressionPDF(
-                    response.pdf_b_vector,
-                    response.pdf_matrix[:, index].reshape((4, num_points), order='F'),
-                    num_train - num_regressors,
-                    response.prediction_mean_vector[index],
-                    self.weight_vector_,
-            )
-            pdfs.append(pdf)
+        pdfs = BayesianRegressionPDFs(
+                response.pdf_matrix,
+                num_train - num_regressors,
+        )
         return response.prediction_mean_vector, pdfs
-

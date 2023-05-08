@@ -7,9 +7,6 @@ def compute_pdf_multipliers(weight_vector, s2_vector, alpha):
     res = []
     log_divisor = loggamma(alpha)
     for i, w in enumerate(weight_vector):
-        if w == 0:
-            res.append((0, 0))
-            continue
         beta = s2_vector[i] / 2
         sgn = math.copysign(1.0, w)
         log_abs_w = np.log(np.abs(w))
@@ -49,8 +46,6 @@ class MarginalSigma2Signal:
             return 0
         res = 0
         for i, w in enumerate(self.weight_vector_):
-            if w == 0:
-                continue
             beta = self.s2_vector_[i] / 2
             res += w * gammaincc(self.alpha_, beta / t)
         return res

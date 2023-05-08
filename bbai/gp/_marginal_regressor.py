@@ -13,8 +13,6 @@ class MarginalRegressor:
         scale_vector = np.zeros(num_points)
         mean = 0
         for point_index, weight in enumerate(weight_vector):
-            if weight == 0:
-                continue
             scale_vector[point_index] = \
                     np.sqrt(axi_diagonals[j, point_index] * s2_vector[point_index] / df)
             mean += weight * beta_hat_matrix[j, point_index]
@@ -27,8 +25,6 @@ class MarginalRegressor:
     def pdf(self, bj):
         res = 0.0
         for point_index, weight in enumerate(self.weight_vector_):
-            if weight == 0:
-                continue
             mean = self.beta_hat_matrix_[self.j_, point_index]
             scale = self.scale_vector_[point_index]
             res += weight * scipy.stats.t.pdf(bj, df = self.df_, loc = mean, scale = scale);
@@ -37,8 +33,6 @@ class MarginalRegressor:
     def cdf(self, bj):
         res = 0.0
         for point_index, weight in enumerate(self.weight_vector_):
-            if weight == 0:
-                continue
             mean = self.beta_hat_matrix_[self.j_, point_index]
             scale = self.scale_vector_[point_index]
             res += weight * scipy.stats.t.cdf(bj, df = self.df_, loc = mean, scale = scale);

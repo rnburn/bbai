@@ -110,3 +110,21 @@ def make_predict_bayesian_gp_regression_request(
 
     writer.prepend_header()
     return writer.tobytes()
+
+def make_bayesian_gp_pred_pdf_request(op, df, pdf_matrix, z):
+    writer = Writer()
+    writer.write_uint8(7) # request_type
+    if op == 'pdf':
+        writer.write_uint8(0)
+    elif op == 'cdf':
+        writer.write_uint8(1)
+    elif op == 'ppf':
+        writer.write_uint8(2)
+    else:
+        assert False, "unknown op"
+    writer.write_uint64(df)
+    writer.write_matrix(pdf_matrix)
+    writer.write_double(z)
+
+    writer.prepend_header()
+    return writer.tobytes()
