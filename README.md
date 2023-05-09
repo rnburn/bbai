@@ -82,6 +82,7 @@ model.fit(X, y)
 ```
 
 ## How it works
+* [Deterministic Objective Bayesian Inference for Spatial Models](https://buildingblock.ai/bayesian-gaussian-process.pdf)
 * [Optimizing Approximate Leave-one-out Cross-validation to Tune Hyperparameters](https://arxiv.org/abs/2011.10218)
 * [An Algorithm for Bayesian Ridge Regression with Full Hyperparameter Integration](https://buildingblock.ai/bayesian-ridge-regression)
 * [How to Fit Logistic Regression with a Noninformative Prior](https://buildingblock.ai/logistic-regression-jeffreys)
