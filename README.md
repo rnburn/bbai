@@ -13,7 +13,7 @@ pip install bbai
 
 ## Usage
 
-### Objective Bayesian Inference for Gaussian Processes
+### Objective Bayesian Inference for Gaussian Process Models
 Construct prediction distributions for Gaussian process models using full integration over the
 parameter space with a noninformative, reference prior.
 ```python
