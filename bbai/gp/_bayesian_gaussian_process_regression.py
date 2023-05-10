@@ -58,9 +58,9 @@ class BayesianGaussianProcessRegression:
     >>> model.fit(Z, y, design_matrix = X)
     >>> 
     >>> # Print out the median of the hyperparameters
-    >>> print('length median =', model.length_median_)
-    >>> print('noise_ratio median =', model.noise_ratio_median_)
-    >>> print('sigma2_signal median =', model.sigma2_signal_median_)
+    >>> print('length median =', model.marginal_length_.ppf(0.5))
+    >>> print('noise_ratio median =', model.marginal_noise_ratio_.ppf(0.5))
+    >>> print('sigma2_signal median =', model.marginal_sigma2_signal_.ppf(0.5))
     """
     def __init__(self,
             kernel=RbfCovarianceFunction(),
@@ -147,9 +147,6 @@ class BayesianGaussianProcessRegression:
 
         self.length_mode_ = np.exp(response.log_length)
         self.noise_ratio_mode_ = np.exp(response.log_noise_ratio)
-        self.length_median_ = self.marginal_length_.ppf(0.5)
-        self.noise_ratio_median_ = self.marginal_noise_ratio_.ppf(0.5)
-        self.sigma2_signal_median_ = self.marginal_sigma2_signal_.ppf(0.5)
 
     def predict(self, sample_matrix, design_matrix=None, with_pdf=False):
         """Predict target values."""

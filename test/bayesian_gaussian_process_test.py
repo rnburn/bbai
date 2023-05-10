@@ -47,8 +47,8 @@ def test_bayesian_model(dataset1):
     assert f_opt > f(theta, eta - d)
 
     # Verify medians
-    assert np.isclose(model.marginal_length_.cdf(model.length_median_), 0.5)
-    assert np.isclose(model.marginal_noise_ratio_.cdf(model.noise_ratio_median_), 0.5)
+    assert np.isclose(model.marginal_length_.cdf(model.marginal_length_.ppf(0.5)), 0.5)
+    assert np.isclose(model.marginal_noise_ratio_.cdf(model.marginal_noise_ratio_.ppf(0.5)), 0.5)
 
     # Verify marginal properties for length and noise ratio
     marginals = [
@@ -91,7 +91,9 @@ def test_bayesian_model(dataset1):
     # Verify marginal properties for a prediction
     Z_test = np.array([[0.123]])
     X_test = np.zeros((1, 0))
-    _, pdfs = model.predict(Z_test, X_test, with_pdf=True) 
+    mean1, pdfs = model.predict(Z_test, X_test, with_pdf=True) 
+    mean2 = model.predict(Z_test, X_test)
+    assert mean1 == mean2
     marginal = pdfs[0]
     integral, _ = quadrature(lambda t: marginal.pdf(t), 
                      -5,
