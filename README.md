@@ -50,7 +50,16 @@ S = make_location_matrix(N)
 K = make_covariance_matrix(S, sigma2, theta, eta)
 y = make_target_vector(K)
 
-# Fit a model
+# Fit a Gaussian process model to the data
+model = BayesianGaussianProcessRegression(kernel=RbfCovarianceFunction())
+model.fit(S, y)
+
+# Construct the prediction distribution for x=0.1
+preds, pred_pdfs = model.predict([[0.1]], with_pdf=True)
+high, low = pred_pdfs.ppf(0.75), pred_pdfs.ppf(0.25)
+
+# Print the mean and %25-%75 credible set of the prediction distribution
+print(preds[0], '(%f to %f)' % (low, high))
 ```
 
 ### Ridge Regression
@@ -62,7 +71,7 @@ from sklearn.preprocessing import StandardScaler
 X, y = load_boston(return_X_y=True)
 X = StandardScaler().fit_transform(X)
 
-# fit a Gaussian process model to the data set
+# fit model
 from bbai.glm import RidgeRegression
 model = RidgeRegression()
 model.fit(X, y)
@@ -71,23 +80,16 @@ model.fit(X, y)
 ### Logistic Regression
 Fit a logistic regression model with the regularization parameter *exactly* set so as to maximize likelihood on an approximate leave-one-out cross-validation of the training data set
 ```python
-# Generate an example data set
+# load example data set
 from sklearn.datasets import load_breast_cancer
 from sklearn.preprocessing import StandardScaler
 X, y = load_breast_cancer(return_X_y=True)
 X = StandardScaler().fit_transform(X)
 
-# Fit a Gaussian process model to the data
+# fit model
 from bbai.glm import LogisticRegression
 model = LogisticRegression()
 model.fit(X, y)
-
-# Construct the prediction distribution for x=0.1
-preds, pred_pdfs = model.predict([[0.1]], with_pdf=True)
-high, low = pred_pdfs.ppf(0.75), pred_pdfs.ppf(0.25)
-
-# Print the mean and %25-%75 credible set of the prediction distribution
-print(preds[0], '(%f to %f)' % (low, high))
 ```
 
 ### Bayesian Ridge Regression
