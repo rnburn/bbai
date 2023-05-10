@@ -1,15 +1,7 @@
 ## bbai
 ![](https://github.com/rnburn/peak-engines/workflows/CI/badge.svg) [![PyPI version](https://img.shields.io/pypi/v/bbai.svg)](https://badge.fury.io/py/bbai) [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/) [![API Reference](http://img.shields.io/badge/api-reference-blue.svg)](https://buildingblock.ai/bbai.glm)
 
-Many models, even basic ones, have hyperparameters. 
-
-Hyperparameters are used, among other things, to prevent overfitting and can have a big impact on a model's performance.
-
-Typically, hyperparameters are treated separately from other model parameters and are set using non-deterministic processes. For example, a hyperparameter specifying regularization strength might be set by estimating out-of-sample performance with a randomized cross-validation and searching through the space of parameters with a brute-force or black-box strategy.
-
-But such methods will never produce the *best value* and tweaking is frequently deployed to achieve better performance.
-
-By comparison, this project provides models that use *deterministic*, *exact* algorithms to set hyperparameters. By using exact processes, you can remove tweaking from the model fitting process, and instead focus on model specification.
+Deterministic, exact algorithms for objective Bayesian inference and hyperparameter optimization.
 
 ## Installation
 
@@ -21,6 +13,46 @@ pip install bbai
 
 ## Usage
 
+### Objective Bayesian Inference for Gaussian Processes
+Construct prediction distributions for Gaussian process models using full integration over the
+parameter space with a noninformative, reference prior.
+```python
+import numpy as np
+from bbai.gp import BayesianGaussianProcessRegression, RbfCovarianceFunction
+
+# Make an example data set
+def make_location_matrix(N):
+    res = np.zeros((N, 1))
+    step = 1.0 / (N - 1)
+    for i in range(N):
+        res[i, 0] = i * step
+    return res
+def make_covariance_matrix(S, sigma2, theta, eta):
+    N = len(S)
+    res = np.zeros((N, N))
+    for i in range(N):
+        si = S[i]
+        for j in range(N):
+            sj = S[j]
+            d = np.linalg.norm(si - sj)
+            res[i, j] = np.exp(-0.5*(d/theta)**2)
+        res[i, i] += eta
+    return sigma2 * res
+def make_target_vector(K):
+    return np.random.multivariate_normal(np.zeros(K.shape[0]), K)
+np.random.seed(0)
+N = 20
+sigma2 = 25
+theta = 0.01
+eta = 0.1
+params = (sigma2, theta, eta)
+S = make_location_matrix(N)
+K = make_covariance_matrix(S, sigma2, theta, eta)
+y = make_target_vector(K)
+
+# Fit a model
+```
+
 ### Ridge Regression
 Fit a ridge regression model with the regularization parameter *exactly* set so as to minimize mean squared error on a leave-one-out cross-validation of the training data set
 ```python
@@ -30,7 +62,7 @@ from sklearn.preprocessing import StandardScaler
 X, y = load_boston(return_X_y=True)
 X = StandardScaler().fit_transform(X)
 
-# fit model
+# fit a Gaussian process model to the data set
 from bbai.glm import RidgeRegression
 model = RidgeRegression()
 model.fit(X, y)
@@ -39,16 +71,23 @@ model.fit(X, y)
 ### Logistic Regression
 Fit a logistic regression model with the regularization parameter *exactly* set so as to maximize likelihood on an approximate leave-one-out cross-validation of the training data set
 ```python
-# load example data set
+# Generate an example data set
 from sklearn.datasets import load_breast_cancer
 from sklearn.preprocessing import StandardScaler
 X, y = load_breast_cancer(return_X_y=True)
 X = StandardScaler().fit_transform(X)
 
-# fit model
+# Fit a Gaussian process model to the data
 from bbai.glm import LogisticRegression
 model = LogisticRegression()
 model.fit(X, y)
+
+# Construct the prediction distribution for x=0.1
+preds, pred_pdfs = model.predict([[0.1]], with_pdf=True)
+high, low = pred_pdfs.ppf(0.75), pred_pdfs.ppf(0.25)
+
+# Print the mean and %25-%75 credible set of the prediction distribution
+print(preds[0], '(%f to %f)' % (low, high))
 ```
 
 ### Bayesian Ridge Regression
