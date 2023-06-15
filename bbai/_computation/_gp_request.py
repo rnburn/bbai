@@ -31,12 +31,14 @@ def make_fit_gp_regression_map_request(
     return writer.tobytes()
 
 def make_fit_bayesian_gp_regression_request(
+        tolerance,
         covariance_function,
         sample_matrix, y, design_matrix,
         hyperparameter0_vector):
     writer = Writer()
     writer.write_uint8(5) # request_type
 
+    writer.write_double(tolerance)
     writer.write_uint8(encode_covariance_function(covariance_function.name_))
     writer.write_vector(np.array(covariance_function.params_, dtype=np.float64))
 
