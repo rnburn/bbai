@@ -65,13 +65,15 @@ class BayesianGaussianProcessRegression:
     def __init__(self,
             kernel=RbfCovarianceFunction(),
             length0=2.0,
-            noise_ratio0=0.05):
+            noise_ratio0=0.05,
+            tolerance=1.0e-4):
         self.params_ = {}
         self._handle = get_computation_handle()
         self.set_params(
                 kernel=kernel,
                 length0=length0,
                 noise_ratio0=noise_ratio0,
+                tolerance=tolerance,
         )
 
     def get_params(self, deep=True):
@@ -96,6 +98,7 @@ class BayesianGaussianProcessRegression:
         length0 = self.params_['length0']
         noise_ratio0 = self.params_['noise_ratio0']
         response = self._handle.fit_bayesian_gp_regression(
+                tolerance = self.params_['tolerance'],
                 covariance_function = self.params_['kernel'],
                 sample_matrix = sample_matrix,
                 design_matrix = design_matrix,
