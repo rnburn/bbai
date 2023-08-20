@@ -1,4 +1,4 @@
-from .._computation._computation_handle import get_computation_handle
+from .._computation._bridge import gp
 from ._covariance_function import RbfCovarianceFunction
 from ._bayesian_regression_pdfs import BayesianRegressionPDFs
 from ._marginal import Marginal, LogMarginal
@@ -68,7 +68,6 @@ class BayesianGaussianProcessRegression:
             noise_ratio0=0.05,
             tolerance=1.0e-4):
         self.params_ = {}
-        self._handle = get_computation_handle()
         self.set_params(
                 kernel=kernel,
                 length0=length0,
@@ -97,59 +96,61 @@ class BayesianGaussianProcessRegression:
         validate_problem(sample_matrix, design_matrix, y)
         length0 = self.params_['length0']
         noise_ratio0 = self.params_['noise_ratio0']
-        response = self._handle.fit_bayesian_gp_regression(
+        kernel = self.params_['kernel']
+        response = gp.fit_regression_bayesian(dict(
                 tolerance = self.params_['tolerance'],
-                covariance_function = self.params_['kernel'],
+                covariance_function_id = kernel.id_,
+                covariance_function_parameter_vector = kernel.params_,
                 sample_matrix = sample_matrix,
                 design_matrix = design_matrix,
-                y = y,
+                target_vector = y,
                 hyperparameter0_vector = np.log(np.array([length0, noise_ratio0])),
-        )
+        ))
         self.train_sample_matrix_ = sample_matrix
-        self.predictor_ = response.predictor
-        self.hyperparameter_matrix_ = response.hyperparameter_matrix
-        self.weight_vector_ = response.weight_vector
+        self.predictor_ = response['predictor']
+        self.hyperparameter_matrix_ = response['hyperparameter_matrix']
+        self.weight_vector_ = response['weight_vector']
 
-        a, b, value_vector, integral_vector = response.marginal_log_length
+        m = response['marginal_log_length']
         self.marginal_log_length_ = Marginal(
-                response.log_length,
-                a, b,
-                response.marginal_point_vector,
-                response.marginal_integral_point_vector,
-                value_vector, integral_vector,
+                response['log_length'],
+                m['a'], m['b'],
+                response['marginal_point_vector'],
+                response['marginal_integral_point_vector'],
+                m['value_vector'], m['integral_vector'],
         )
         self.marginal_length_ = LogMarginal(self.marginal_log_length_)
         self.marginal_regressors_ = []
         for j in range(num_regressors):
             self.marginal_regressors_.append(
                     MarginalRegressor(
-                        response.weight_vector,
-                        response.beta_hat_matrix,
-                        response.axi_diagonals,
-                        response.s2_vector,
+                        response['weight_vector'],
+                        response['beta_hat_matrix'],
+                        response['axi_diagonals'],
+                        response['s2_vector'],
                         len(y) - num_regressors,
                         j
                     )
             )
 
-        a, b, value_vector, integral_vector = response.marginal_log_noise_ratio
+        m = response['marginal_log_noise_ratio']
         self.marginal_log_noise_ratio_ = Marginal(
-                response.log_noise_ratio,
-                a, b,
-                response.marginal_point_vector,
-                response.marginal_integral_point_vector,
-                value_vector, integral_vector,
+                response['log_noise_ratio'],
+                m['a'], m['b'],
+                response['marginal_point_vector'],
+                response['marginal_integral_point_vector'],
+                m['value_vector'], m['integral_vector'],
         )
         self.marginal_noise_ratio_ = LogMarginal(self.marginal_log_noise_ratio_)
 
         self.marginal_sigma2_signal_ = MarginalSigma2Signal(
-                response.weight_vector,
-                response.s2_vector,
+                response['weight_vector'],
+                response['s2_vector'],
                 len(y) - num_regressors,
         )
 
-        self.length_mode_ = np.exp(response.log_length)
-        self.noise_ratio_mode_ = np.exp(response.log_noise_ratio)
+        self.length_mode_ = np.exp(response['log_length'])
+        self.noise_ratio_mode_ = np.exp(response['log_noise_ratio'])
 
     def predict(self, sample_matrix, design_matrix=None, with_pdf=False):
         """Predict target values."""
@@ -158,21 +159,23 @@ class BayesianGaussianProcessRegression:
             design_matrix = np.array(design_matrix, dtype=np.float64)
         else:
             design_matrix = np.zeros((len(sample_matrix), 0))
-        response = self._handle.predict_bayesian_gp_regression(
-                covariance_function = self.params_['kernel'],
+        kernel = self.params_['kernel']
+        response = gp.predict_regression_bayesian(dict(
+                covariance_function_id = kernel.id_,
+                covariance_function_parameter_vector = kernel.params_,
                 train_sample_matrix = self.train_sample_matrix_,
                 sample_matrix = sample_matrix,
                 design_matrix = design_matrix,
                 predictor = self.predictor_,
-                with_pdf = with_pdf,
-        )
+                compute_pdf = with_pdf,
+        ))
         if not with_pdf:
-            return response.prediction_mean_vector
+            return response['prediction_mean_vector']
         pdfs = []
         num_train = len(self.train_sample_matrix_)
         num_regressors = design_matrix.shape[1]
         pdfs = BayesianRegressionPDFs(
-                response.pdf_matrix,
+                response['pdf_matrix'],
                 num_train - num_regressors,
         )
-        return response.prediction_mean_vector, pdfs
+        return response['prediction_mean_vector'], pdfs

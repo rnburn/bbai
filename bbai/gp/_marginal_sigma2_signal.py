@@ -27,9 +27,8 @@ class MarginalSigma2Signal:
         self.mean_s2_vector = mean_s2_vector
 
     def pdf(self, t):
-        assert t >= 0
-        if t == 0:
-            return 0
+        is_zero = (t == 0)
+        t += is_zero * 1.0e-5
         res = 0
         term1 = (-self.alpha_ - 1) * np.log(t)
         for i, (sgn, log_mult) in enumerate(self.pdf_multipliers_):
@@ -38,7 +37,7 @@ class MarginalSigma2Signal:
             beta = self.s2_vector_[i] / 2
             val = sgn * np.exp(log_mult + term1 - beta / t)
             res += val
-        return res
+        return res * (t != 0)
 
     def cdf(self, t):
         assert t >= 0

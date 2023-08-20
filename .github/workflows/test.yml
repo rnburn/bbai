@@ -45,3 +45,6 @@ jobs:
     - name: Test Bayesian Gaussian Process Regression
       run: |
         python test/bayesian_gaussian_process_test.py
+    - name: Test Sparse Grid Interpolation
+      run: |
+        python test/sparse_grid_test.py

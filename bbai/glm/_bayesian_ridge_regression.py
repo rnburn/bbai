@@ -1,4 +1,4 @@
-from .._computation._computation_handle import get_computation_handle
+from .._computation._bridge import glm
 
 import numpy as np
 
@@ -26,7 +26,6 @@ class BayesianRidgeRegression(object):
             self,
             fit_intercept=True):
         self.params_ = {}
-        self._handle = get_computation_handle()
         self.set_params(
                 fit_intercept=fit_intercept,
         )
@@ -46,14 +45,11 @@ class BayesianRidgeRegression(object):
         if self.params_['fit_intercept']:
             self.intercept_ = np.mean(y)
         y -= self.intercept_
-        response = self._handle.fit_bayesian_glm(
-                X = X,
-                y = y,
-        )
-        self.weight_mean_vector_ = response.weight_mean_vector
+        response = glm.fit_bayesian_glm(dict(feature_matrix=X, target_vector=y))
+        self.weight_mean_vector_ = response['weight_mean_vector']
         self.coef_ = self.weight_mean_vector_
-        self.weight_covariance_matrix_ = response.weight_covariance_matrix
-        self.noise_variance_mean_ = response.noise_variance_mean
+        self.weight_covariance_matrix_ = response['weight_covariance_matrix']
+        self.noise_variance_mean_ = response['noise_variance_mean']
 
     def predict(self, X, return_std=False):
         """Predict target values."""

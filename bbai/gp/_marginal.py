@@ -23,14 +23,11 @@ class Marginal:
 
     def pdf(self, t):
         t -= self.t0_
-        if t <= self.a_:
-            return 0
-        if t >= self.b_:
-            return 0
+        in_range = (t >= self.a_) * (t <= self.b_)
         mid = (self.a_ + self.b_) / 2.0
         mult = (self.b_ - self.a_) / 2.0
         tp = (t - mid) / mult
-        return scipy.interpolate.barycentric_interpolate(
+        return in_range * scipy.interpolate.barycentric_interpolate(
                 self.point_vector_,
                 self.value_vector_,
                 tp,
@@ -74,7 +71,6 @@ class LogMarginal:
         self.bracket_high_ = np.exp(marginal.bracket_high_)
 
     def pdf(self, t):
-        assert t > 0
         return self.marginal_.pdf(np.log(t)) / t
 
     def cdf(self, t):

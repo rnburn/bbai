@@ -61,14 +61,14 @@ def test_bayesian_model(dataset1):
         integral, _ = quadrature(lambda t: marginal.pdf(t), 
                          marginal.bracket_low_,
                          marginal.bracket_high_,
-                         vec_func=False,
+                         # vec_func=False,
                          maxiter=1000) 
         assert np.isclose(integral, 1.0, rtol=1.0e-4)
         mid = marginal.ppf(0.5)
         integral, _ = quadrature(lambda t: marginal.pdf(t), 
                          marginal.bracket_low_,
                          mid,
-                         vec_func=False,
+                         # vec_func=False,
                          maxiter=1000) 
         assert np.isclose(integral, marginal.cdf(mid), rtol=1.0e-4)
         assert np.isclose(integral, 0.5, rtol=1.0e-4)
@@ -78,13 +78,11 @@ def test_bayesian_model(dataset1):
     integral, _ = quadrature(lambda t: marginal.pdf(t), 
                      1.0e-5,
                      100,
-                     vec_func=False,
                      maxiter=1000) 
     assert np.isclose(integral, 1.0, rtol=1.0e-3)
     integral, _ = quadrature(lambda t: marginal.pdf(t), 
                      1.0e-5,
                      10,
-                     vec_func=False,
                      maxiter=1000) 
     assert np.isclose(integral, marginal.cdf(10))
 
@@ -121,4 +119,3 @@ def test_invalid_data(dataset1):
 
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__]))
-

@@ -1,4 +1,4 @@
-from .._computation._computation_handle import get_computation_handle
+from .._computation._bridge import glm
 
 import numpy as np
 import scipy.linalg
@@ -33,7 +33,6 @@ class LogisticRegressionMAP(object):
             fit_intercept=True,
             tolerance=0.0001):
         self.params_ = {}
-        self._handle = get_computation_handle()
         self.set_params(
                 fit_intercept=fit_intercept,
                 tolerance=tolerance
@@ -63,18 +62,18 @@ class LogisticRegressionMAP(object):
             X_p = np.hstack((X, np.ones((n, 1))))
         if X_p.shape[1] > n:
             raise RuntimeError('only supports n <= p')
-        response = self._handle.fit_glm_map(
-                X = X_p,
-                y = y,
-        )
-        w = response.weights
+        response = glm.fit_map(dict(
+                feature_matrix = X_p,
+                target_vector = y,
+        ))
+        w = response['weight_vector']
         intercept = 0.0
         if fit_intercept:
             intercept = w[-1]
             w = w[:-1]
         self.coef_ = np.array([w])
         self.intercept_ = [intercept]
-        self.hessian_ = response.hessian
+        self.hessian_ = response['hessian']
         self.hessian_inverse_ = None
 
 

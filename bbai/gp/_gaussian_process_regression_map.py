@@ -1,4 +1,4 @@
-from .._computation._computation_handle import get_computation_handle
+from .._computation._bridge import gp
 from ._regression_map_pdf import RegressionMAPPDF
 from ._covariance_function import RbfCovarianceFunction
 
@@ -35,7 +35,6 @@ class GaussianProcessRegressionMAP(object):
             length0=2.0,
             noise_ratio0=0.05):
         self.params_ = {}
-        self._handle = get_computation_handle()
         self.set_params(
                 kernel=kernel,
                 length0=length0,
@@ -68,23 +67,25 @@ class GaussianProcessRegressionMAP(object):
             design_matrix = np.zeros((0, 0))
         length0 = self.params_['length0']
         noise_ratio0 = self.params_['noise_ratio0']
-        response = self._handle.fit_gp_regression_map(
-                covariance_function = self.params_['kernel'],
+        kernel = self.params_['kernel']
+        response = gp.fit_regression_map(dict(
+                covariance_function_id = kernel.id_,
+                covariance_function_parameter_vector = kernel.params_,
                 sample_matrix = sample_matrix,
                 design_matrix = design_matrix,
-                y = y,
+                target_vector = y,
                 hyperparameter0_vector = np.array([length0, noise_ratio0]),
                 use_log_parameters = self.params_['use_log_parameters'],
-        )
+        ))
         self.train_sample_matrix_ = sample_matrix
-        self.length_ = response.length
-        self.noise_ratio_ = response.noise_ratio
-        self.prediction_b_value_ = response.prediction_b_value
-        self.hessian_ = response.hessian
-        self.intermediate1_prediction_vector_ = response.intermediate1_prediction_vector
-        self.intermediate2_prediction_matrix_ = response.intermediate2_prediction_matrix
-        self.beta_vector_ = response.beta_vector
-        self.packed_gl_matrix_ = response.packed_gl_matrix
+        self.length_ = response['length']
+        self.noise_ratio_ = response['noise_ratio']
+        self.prediction_b_value_ = response['prediction_b_value']
+        self.hessian_ = response['hessian']
+        self.intermediate1_prediction_vector_ = response['intermediate1_prediction_vector']
+        self.intermediate2_prediction_matrix_ = response['intermediate2_prediction_matrix']
+        self.beta_vector_ = response['beta_vector']
+        self.packed_gl_matrix_ = response['packed_gl_matrix']
 
     def predict(self, sample_matrix, design_matrix=None, with_pdf=False):
         """Predict target values."""
@@ -93,9 +94,11 @@ class GaussianProcessRegressionMAP(object):
             design_matrix = np.array(design_matrix, dtype=np.float64)
         else:
             design_matrix = np.zeros((0, 0))
-        response = self._handle.predict_gp_regression_map(
+        kernel = self.params_['kernel']
+        response = gp.predict_regression_map(dict(
                 prediction_b_value = self.prediction_b_value_,
-                covariance_function = self.params_['kernel'],
+                covariance_function_id = kernel.id_,
+                covariance_function_parameter_vector = kernel.params_,
                 train_sample_matrix = self.train_sample_matrix_,
                 sample_matrix = sample_matrix,
                 design_matrix = design_matrix,
@@ -105,15 +108,15 @@ class GaussianProcessRegressionMAP(object):
                 beta_vector = self.beta_vector_,
                 packed_gl_matrix = 
                     self.packed_gl_matrix_ if with_pdf else np.zeros(0),
-                with_pdf = with_pdf,
-        )
+                compute_pdf = with_pdf,
+        ))
         if not with_pdf:
-            return response.prediction_mean_vector
+            return response['prediction_mean_vector']
         pdf = RegressionMAPPDF(
-                response.prediction_packed_r22l_matrix,
+                response['prediction_packed_r22l_matrix'],
                 self.prediction_b_value_,
-                response.log_pdf_normalizer,
-                response.prediction_mean_vector,
+                response['log_pdf_normalizer'],
+                response['prediction_mean_vector'],
                 self.train_sample_matrix_.shape[0] - design_matrix.shape[1],
         )
-        return response.prediction_mean_vector, pdf
+        return response['prediction_mean_vector'], pdf

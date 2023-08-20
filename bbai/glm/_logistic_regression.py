@@ -1,4 +1,5 @@
-from .._computation._computation_handle import get_computation_handle
+from .._computation._bridge import glm
+from ._loss_link import LossLink
 
 import numpy as np
 
@@ -60,7 +61,6 @@ class LogisticRegression(object):
             weights0=None,
             tolerance=0.0001):
         self.params_ = {}
-        self._handle = get_computation_handle()
         self.set_params(
                 fit_intercept=fit_intercept,
                 normalize=normalize,
@@ -88,43 +88,35 @@ class LogisticRegression(object):
         """Fit the model to the training data."""
         self.classes_ = list(sorted(set(y)))
         self._loss_link = 'multinomial_logistic'
+        loss_link = LossLink.multinomial_logistic
         if self.params_['active_classes'] == 'm1' or len(self.classes_) == 2:
             self._loss_link = 'multinomial_logistic_m1'
+            loss_link = LossLink.multinomial_logistic_m1
         self._num_active_classes = len(self.classes_)
         if self._loss_link == 'multinomial_logistic_m1':
             self._num_active_classes -= 1
         C = self.params_['C']
-        penalty = self.params_['penalty']
         alpha = self.params_['alpha']
         beta = self.params_['beta']
-        hyperparameters = _get_hyperparameters(penalty, C, alpha, beta)
-        response = self._handle.fit_glm(
-            loss_link = self._loss_link,
-            regularizer = penalty,
+        hyperparameters = _get_hyperparameters('l2', C, alpha, beta)
+        response = glm.fit_glm(dict(
+            loss_link = loss_link,
             normalize = self.params_['normalize'],
             fit_intercept = self.params_['fit_intercept'],
-            weights0 = self.params_['weights0'],
-            X = X,
-            y = y,
-            hyperparameters = hyperparameters,
-        )
-        self.aloocv_ = response.aloocv
-        self.aloocvs_ = response.aloocvs
-        self.coef_ = response.weights
-        self.intercept_ = response.intercepts
-        self.raw_weights_ = response.raw_weights
+            feature_matrix = X,
+            target_vector = y,
+            hyperparameter_vector = hyperparameters,
+        ))
+        self.aloocv_ = response['aloocv']
+        self.aloocvs_ = response['aloocv_vector']
+        self.coef_ = response['weight_matrix'].T
+        self.intercept_ = response['intercept_vector']
         if self._num_active_classes == 1:
             # we invert so as to match the conventional way of representing weights
             self.coef_ = -self.coef_
             self.intercept_ = -self.intercept_
-        penalty = self.params_['penalty']
-
-        if penalty == 'l2' or penalty == 'l1':
-            self.alpha_ = response.hyperparameters[0] ** 2
-            self.C_ = 0.5 / self.alpha_
-        elif penalty == 'elasticnet':
-            self.alpha_ = response.hyperparameters[0] ** 2
-            self.beta_ = response.hyperparameters[1] ** 2
+        self.alpha_ = response['hyperparameter_vector'][0] ** 2
+        self.C_ = 0.5 / self.alpha_
 
 
     def predict(self, X):

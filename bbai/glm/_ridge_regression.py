@@ -1,4 +1,5 @@
-from .._computation._computation_handle import get_computation_handle
+from .._computation._bridge import glm
+from ._loss_link import LossLink
 
 import numpy as np
 
@@ -40,7 +41,6 @@ class RidgeRegression(object):
             alpha=None,
             tolerance=0.0001):
         self.params_ = {}
-        self._handle = get_computation_handle()
         self.set_params(
                 fit_intercept=fit_intercept,
                 normalize=normalize,
@@ -66,18 +66,17 @@ class RidgeRegression(object):
         hyperparameters = np.array([])
         if alpha:
             hyperparameters = np.array([np.sqrt(alpha)])
-        response = self._handle.fit_glm(
-                loss_link = self._loss_link,
-                regularizer = 'l2',
-                normalize = self.params_['normalize'],
-                fit_intercept = self.params_['fit_intercept'],
-                X = X,
-                y = y,
-                hyperparameters = hyperparameters,
-        )
-        self.coef_ = response.weights[0, :]
-        self.intercept_ = response.intercepts[0]
-        self.alpha_ = response.hyperparameters[0] ** 2
+        response = glm.fit_glm(dict(
+            loss_link = LossLink.l2,
+            normalize = self.params_['normalize'],
+            fit_intercept = self.params_['fit_intercept'],
+            feature_matrix = X,
+            target_vector = y,
+            hyperparameter_vector = hyperparameters,
+        ))
+        self.coef_ = response['weight_matrix'][:, 0]
+        self.intercept_ = response['intercept_vector'][0]
+        self.alpha_ = response['hyperparameter_vector'][0] ** 2
 
     def predict(self, X):
         """Predict target values."""
