@@ -13,6 +13,33 @@ pip install bbai
 
 ## Usage
 
+### Efficient approximation of multivariable functions using adaptive sparse grids at Chebyshev nodes.
+```python
+from bbai.numeric import SparseGridInterpolator
+import numpy as np
+
+# A test function
+def f(x, y, z):
+    t1 = 0.68 * np.abs(x - 0.3)
+    t2 = 1.25 * np.abs(y - 0.15)
+    t3 = 1.86 * np.abs(z - 0.09)
+    return np.exp(-t1 - t2 - t3)
+
+# Fit a sparse grid to approximate f
+ranges = [(-2, 5), (1, 3), (-2, 2)]
+interp = SparseGridInterpolator(tolerance=1.0e-4, ranges=ranges)
+interp.fit(f)
+print('num_pts =', interp.points.shape[1])
+    # prints 10851
+
+# Test the accuracy at a random point of the domain
+print(interp.evaluate(1.84, 2.43, 0.41), f(1.84, 2.43, 0.41))
+#    prints 0.011190847391188667 0.011193746554063376
+
+# Integrate the approximation over the range
+print(interp.integral)
+#    prints 0.6847335267327939
+```
 ### Objective Bayesian Inference for Gaussian Process Models
 Construct prediction distributions for Gaussian process models using full integration over the
 parameter space with a noninformative, reference prior.
