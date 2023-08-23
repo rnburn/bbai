@@ -166,6 +166,7 @@ model.fit(X, y)
 * [07-jeffreys-breast-cancer](example/07-jeffreys-breast-cancer.py): Fit a logistic regression MAP model with Jeffreys prior to the breast cancer data set.
 * [08-soil-cn](example/08-soil-cn.ipynb): Fit a Bayesian Gaussian process with a non-informative prior to a data set of soil carbon-to-nitrogen samples.
 * [11-meuse-zinc](example/11-meuse-zinc.ipynb): Fit a Bayesian Gaussian process with a non-informative prior to a data set of zinc concetrations taken in a flood plain of the Meuse river.
+* [13-sparse-grid](example/13-sparse-grid.ipynb): Build an adaptive sparse grids for interpolation and integration.
 
 ## Documentation
 
