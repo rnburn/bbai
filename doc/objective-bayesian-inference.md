@@ -13,6 +13,7 @@ show how they might be solved with a more modern approach to objective Bayesian 
 
 For more complete coverage of the topic, I highly recommend the book [Objective Bayesian Inference](https://www.amazon.com/Objective-Bayesian-Inference-James-Berger/dp/9811284903) by James Berger, Jose Bernardo, and Dongchu Sun.
 
+## Contents
 1. [History](#history)
 2. [Priors and Frequentist Matching](#priors-and-frequentist-matching)
     * [Example 1: A Normal Distribution with Unknown Mean](#example-1-a-normal-distribution-with-unknown-mean)
