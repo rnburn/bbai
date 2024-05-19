@@ -263,11 +263,6 @@ They concluded
 > stressing the formal definition of a p value while warning against its
 > misinterpretation–has simply been an abysmal failure. [[16](https://hannig.cloudapps.unc.edu/STOR654/handouts/SellkeBayarriBerger2001.pdf)]
 
-In this post, we’ll look closer at how priors for objective Bayesian analysis
-can be justified by matching coverage; and we’ll reexamine the problems Bayes
-and Laplace studied to see how they might be approached with a more modern
-methodology.
-
 # Priors and Frequentist Matching
 The idea of matching priors intuitively aligns with how we might think about
 probability in the absence of prior knowledge. We can think of the frequentist
