@@ -48,3 +48,6 @@ jobs:
     - name: Test Sparse Grid Interpolation
       run: |
         python test/sparse_grid_test.py
+    - name: Normal Mean Hypothesis Testing
+      run: |
+        python test/hypothesis_test.py

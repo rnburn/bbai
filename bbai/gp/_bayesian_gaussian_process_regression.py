@@ -126,7 +126,7 @@ class BayesianGaussianProcessRegression:
                     MarginalRegressor(
                         response['weight_vector'],
                         response['beta_hat_matrix'],
-                        response['axi_diagonals'],
+                        response['axi_diagonal_matrix'],
                         response['s2_vector'],
                         len(y) - num_regressors,
                         j
