@@ -103,7 +103,7 @@ class NormalMeanHypothesis:
     The class provides both two tailed hypothesis testing (i.e. H_1: mu < 0, H_2: mu >= 0) and
     hypothesis testing with equality (H_1: mu == 0, H_2: mu < 0, H_3: mu > 0).
 
-    The algorithm uses an accurate and efficient deterministic algorithm to compute the
+    The implementation uses an accurate and efficient deterministic algorithm to compute the
     correction factors 
 
          E_{\hat{\theta}}^{H_0}[B_{i0}^N (X(l))]
