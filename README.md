@@ -17,7 +17,7 @@ pip install bbai
 The EEIBF method is described in the paper *Default Bayes Factors for Nonnested Hypothesis Testing*
 by James Berger and Julia Mortera ([postscript](http://www2.stat.duke.edu/~berger/papers/mortera.ps)).
 
-The python code below shows how to test the three hypotheses for the mean of normally distributed 
+The python code below shows how to test these three hypotheses for the mean of normally distributed 
 data with unknown variance.
 ```
 H_equal: mean = 0
