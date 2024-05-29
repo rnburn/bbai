@@ -35,7 +35,7 @@ print(probs.equal) # posterior probability for H_equal 0.235
 print(probs.left) # posterior probability for H_left 0.0512
 print(probs.right) # posterior probability for H_right 0.713
 ```
-See [example/19-hypothesis-first-t.ipynb](example/19-hypothesis-first-t.ipynb) for an exmaple and
+See [example/19-hypothesis-first-t.ipynb](example/19-hypothesis-first-t.ipynb) for an example and
 [example/18-hypothesis-eeibf-validation.ipynb](example/18-hypothesis-eeibf-validation.ipynb) for a
 step-by-step validation of the method against the paper.
 
