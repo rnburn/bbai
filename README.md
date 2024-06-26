@@ -13,6 +13,33 @@ pip install bbai
 
 ## Usage
 
+### Hypothesis testing using Expected Encompassing Intrinsic Bayes Factors (EEIBF)
+The EEIBF method is described in the paper *Default Bayes Factors for Nonnested Hypothesis Testing*
+by James Berger and Julia Mortera ([postscript](http://www2.stat.duke.edu/~berger/papers/mortera.ps)).
+
+The python code below shows how to test these three hypotheses for the mean of normally distributed 
+data with unknown variance.
+```
+H_equal: mean = 0
+H_left: mean < 0
+H_right: mean > 0
+```
+```python
+from bbai.stat import NormalMeanHypothesis
+import numpy as np
+
+np.random.seed(0)
+data = np.random.normal(0.123, 1.5, size=9)
+probs = NormalMeanHypothesis().test(data)
+print(probs.equal) # posterior probability for H_equal 0.235
+print(probs.left) # posterior probability for H_left 0.0512
+print(probs.right) # posterior probability for H_right 0.713
+```
+See [example/19-hypothesis-first-t.ipynb](example/19-hypothesis-first-t.ipynb) for an example and
+[example/18-hypothesis-eeibf-validation.ipynb](example/18-hypothesis-eeibf-validation.ipynb) for a
+step-by-step validation of the method against the paper.
+
+
 ### Efficient approximation of multivariable functions using adaptive sparse grids at Chebyshev nodes.
 ```python
 from bbai.numeric import SparseGridInterpolator
