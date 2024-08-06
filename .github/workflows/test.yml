@@ -51,3 +51,6 @@ jobs:
     - name: Normal Mean Hypothesis Testing
       run: |
         python test/hypothesis_test.py
+    - name: Delta Binomial Testing
+      run: |
+        python test/delta_binomial_test.py
