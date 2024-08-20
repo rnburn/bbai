@@ -14,6 +14,8 @@ pip install bbai
 ## Usage
 
 ### Hypothesis testing using Expected Encompassing Intrinsic Bayes Factors (EEIBF)
+https://www.objectivebayesian.com/p/hypothesis-testing
+
 The EEIBF method is described in the paper *Default Bayes Factors for Nonnested Hypothesis Testing*
 by James Berger and Julia Mortera ([postscript](http://www2.stat.duke.edu/~berger/papers/mortera.ps)).
 
