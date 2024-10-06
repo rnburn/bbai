@@ -41,6 +41,26 @@ See [example/19-hypothesis-first-t.ipynb](example/19-hypothesis-first-t.ipynb) f
 [example/18-hypothesis-eeibf-validation.ipynb](example/18-hypothesis-eeibf-validation.ipynb) for a
 step-by-step validation of the method against the paper.
 
+### Objective Bayesian inference for comparing binomial proportions
+https://www.objectivebayesian.com/p/binomial-comparison
+
+Fit a posterior distribution with a reference prior to compare binomial proportions:
+```python
+from bbai.model import DeltaBinomialModel
+
+# Some example data
+a1, b1, a2, b2 = 5, 3, 2, 7
+
+# Fit a posterior distribution with likelihood function
+#     L(theta, x) = (theta + x)^a1 * (1 - theta - x)^b1 * x^a2 (1-x)^b2
+# where theta represents the difference of the two binomial distribution probabilities
+model = DeltaBinomialModel(prior='reference')
+model.fit(a1, b1, a2, b2)
+
+# Print the probability that theta < 0.123
+print(model.cdf(0.123))
+     # Prints 0.10907436812863071
+```
 
 ### Efficient approximation of multivariable functions using adaptive sparse grids at Chebyshev nodes.
 ```python
