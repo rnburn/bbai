@@ -64,7 +64,7 @@ class DeltaBinomialModel:
         self.model_ = mdldb.delta_binomial_fit(self.prior_, a1, b1, a2, b2)
 
     def cdf(self, t):
-        """Cumulative distribution function for the posterior in p1-p2"""
+        """Cumulative density function for the posterior in p1-p2"""
         assert -1 <= t and t <= 1
         assert self.model_ is not None
         return mdldb.delta_binomial_cdf(self.model_, t)

@@ -54,3 +54,9 @@ jobs:
     - name: Delta Binomial Testing
       run: |
         python test/delta_binomial_test.py
+    - name: Bayesian Logistic Regression1 Testing
+      run: |
+        python test/bayesian_logistic_regression1_test.py
+    - name: Bounded Normal Testing
+      run: |
+        python test/bounded_normal_test.py
