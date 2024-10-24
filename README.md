@@ -13,6 +13,28 @@ pip install bbai
 
 ## Usage
 
+### Fully Bayesian Single-variable Logistic Regression with Reference Prior
+https://www.objectivebayesian.com/p/election-2024
+
+Build a fully Bayesian logistic regression model with a single unknown weight using Jeffreys
+prior (or reference prior, which are the same for only a single parameter).
+
+```python
+from bbai.glm import BayesianLogisticRegression1
+
+x = [-5, 2, 8, 1]
+y = [0, 1, 0, 1]
+model = BayesianLogisticRegression1()
+
+# Fit a posterior distribution for w with the logistic
+# regression reference prior
+model.fit(x, y)
+
+# Print the posterior probability that w < 0.123
+print(model.cdf(0.123))
+```
+
+
 ### Hypothesis testing using Expected Encompassing Intrinsic Bayes Factors (EEIBF)
 https://www.objectivebayesian.com/p/hypothesis-testing
 
