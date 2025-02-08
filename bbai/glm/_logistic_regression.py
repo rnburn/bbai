@@ -117,6 +117,7 @@ class LogisticRegression(object):
             self.intercept_ = -self.intercept_
         self.alpha_ = response['hyperparameter_vector'][0] ** 2
         self.C_ = 0.5 / self.alpha_
+        return self
 
 
     def predict(self, X):

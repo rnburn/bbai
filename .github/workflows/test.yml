@@ -60,3 +60,9 @@ jobs:
     - name: Bounded Normal Testing
       run: |
         python test/bounded_normal_test.py
+    - name: Lasso Testing
+      run: |
+        python test/lasso_test.py
+    - name: Leave-one-out Lasso Testing
+      run: |
+        python test/lo_lasso_test.py

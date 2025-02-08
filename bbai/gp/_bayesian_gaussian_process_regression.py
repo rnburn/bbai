@@ -151,6 +151,7 @@ class BayesianGaussianProcessRegression:
 
         self.length_mode_ = np.exp(response['log_length'])
         self.noise_ratio_mode_ = np.exp(response['log_noise_ratio'])
+        return self
 
     def predict(self, sample_matrix, design_matrix=None, with_pdf=False):
         """Predict target values."""

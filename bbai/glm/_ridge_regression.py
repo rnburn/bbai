@@ -77,6 +77,7 @@ class RidgeRegression(object):
         self.coef_ = response['weight_matrix'][:, 0]
         self.intercept_ = response['intercept_vector'][0]
         self.alpha_ = response['hyperparameter_vector'][0] ** 2
+        return self
 
     def predict(self, X):
         """Predict target values."""
