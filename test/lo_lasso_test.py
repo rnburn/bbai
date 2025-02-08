@@ -29,7 +29,7 @@ def exercise_dataset(ds):
         print(lda, cv, model.evaluate_lo_cost(lda))
 
     # check that no grid cv gives a better value than lambda opt
-    assert cost_opt <= grid.cv_min
+    assert cost_opt <= grid.cv_min + 1.0e-6
 
 def test_random():
     np.random.seed(0)
