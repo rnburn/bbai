@@ -31,7 +31,7 @@ print(model.intercept_, model.coef_) # print out the coefficients that maximizes
                                      # leave-one-out cross validation performance
   # prints: 152.13 [0, -193.9, 521.8, 295.15, -99.28, 0, -222.67, 0, 511.95, 52.85]
 ```
-See [24-lasso-diabetes](example/24-lasso-diabetes.ipynb) for the complet example.
+See [24-lasso-diabetes](example/24-lasso-diabetes.ipynb) for the full example.
 
 ### Fully Bayesian Single-variable Logistic Regression with Reference Prior
 https://www.objectivebayesian.com/p/election-2024
