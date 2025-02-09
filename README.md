@@ -13,6 +13,26 @@ pip install bbai
 
 ## Usage
 
+### Fit Lasso Regression to Optimize LOOCV
+Efficiently fit a lasso regression model with λ set so as to optimize performance on 
+a leave-one-out cross-validation of the data set.
+
+```python
+from sklearn.datasets import load_diabetes
+from bbai.glm import Lasso
+X, y = load_diabetes(return_X_y=True)
+model = Lasso().fit(X, y) 
+            # Fit lasso regression using hyperparameters that maximize performance on
+            # leave-one-out cross-validation.
+print(model.lambda_) # print out the hyperparameter that maximizes
+                     # leave-one-out cross validation performance
+  # prints: 22.179
+print(model.intercept_, model.coef_) # print out the coefficients that maximizes
+                                     # leave-one-out cross validation performance
+  # prints: 152.13 [0, -193.9, 521.8, 295.15, -99.28, 0, -222.67, 0, 511.95, 52.85]
+```
+See [24-lasso-diabetes](example/24-lasso-diabetes.ipynb) for the complet example.
+
 ### Fully Bayesian Single-variable Logistic Regression with Reference Prior
 https://www.objectivebayesian.com/p/election-2024
 
