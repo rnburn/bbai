@@ -43,12 +43,13 @@ class Lasso:
                                              # leave-one-out cross validation performance
           # prints: 152.13 [0, -193.9, 521.8, 295.15, -99.28, 0, -222.67, 0, 511.95, 52.85]
     """
-    def __init__(self, lambda_=None, fit_intercept=True, fit_beta_path=False):
+    def __init__(self, lambda_=None, fit_intercept=True, fit_beta_path=False, graph_file=""):
         self.params_ = {}
         self.set_params(
                 lambda_ = lambda_,
                 fit_intercept = fit_intercept,
-                fit_beta_path = fit_beta_path
+                fit_beta_path = fit_beta_path,
+                graph_file = graph_file
         )
         self.coef_ = None
 
@@ -68,7 +69,7 @@ class Lasso:
         fit_intercept = self.params_['fit_intercept']
         fit_beta_path = self.params_['fit_beta_path']
         if lambda_ is None:
-            res = glm.loo_lasso_fit(X, y, fit_intercept)
+            res = glm.loo_lasso_fit(X, y, fit_intercept, self.params_['graph_file'])
             self.cost_fn_ = res['cost_function']
             self.lambda_ = res['lambda_opt']
             self.loo_mse_ = res['cost_opt'] / len(y)
@@ -110,3 +111,25 @@ class Lasso:
                 continue
             a0, a1, a2 = self.cost_fn_[1:, j]
             return a0 + a1 * lda + a2 * lda**2
+
+    def cost_plot_points(self, lambda_min, lambda_max):
+        x = []
+        y = []
+        entries = self.cost_fn_.T
+        n = len(entries)
+        for i in range(n):
+            lda, c, b, a = entries[i]
+            if lda < lambda_min:
+                continue
+            if lda > lambda_max or i == n-1:
+                break
+            lda_min = max(lda, lambda_min)
+            lda_max = entries[i+1][0]
+            lda_max = min(lda_max, lambda_max)
+            ldax = np.linspace(lda_min, lda_max, num=4)
+            def f(t):
+                return c + b * t + a * t * t
+            costx = f(ldax)
+            x.append(ldax)
+            y.append(costx)
+        return x, y
