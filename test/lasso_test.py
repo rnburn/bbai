@@ -29,7 +29,12 @@ def test_1x1():
     # we can fit the beta path
     model = Lasso(0.0, fit_intercept=False, fit_beta_path=True)
     model.fit(X, y)
-    assert model.beta_path_ == approx(np.array([[0.0, lambda0], [y[0] / X[0, 0], 0.0]]))
+    print(model.beta_path_.segments_)
+    assert model.beta_path_.segments_ == approx(np.array(
+        [[0.0, lambda0], 
+         [y[0] / X[0, 0], 0.0],
+         [y[0] / X[0, 0], 0.0]
+    ]))
 
 def test_2x1():
     X = np.array([[11.3], [-22.4]])
@@ -58,8 +63,12 @@ def test_2x1():
     # we can fit the beta path
     model = Lasso(0.0, fit_intercept=False, fit_beta_path=True)
     model.fit(X, y)
-    assert model.beta_path_ == approx(np.array([[0.0, lambda0], [beta_ols, 0.0]]))
-    
+    assert model.beta_path_.segments_ == approx(np.array([
+        [0.0, lambda0], 
+        [beta_ols, 0.0],
+        [beta_ols, 0.0]
+    ]))
+   
 def test_random():
     np.random.seed(3)
 
@@ -86,6 +95,17 @@ def test_random():
         xp = np.random.uniform(size=5)
         expected = model.intercept_ + np.dot(xp, model.coef_)
         assert (model.predict(xp) == expected).all()
+
+    # we can fit random data sets by setting the t parameter
+    for k in range(10):
+        ds = RandomRegressionDataset(n=10, p=5, with_intercept=True)
+        t = np.random.uniform() * ds.t
+        model = Lasso(t=t, fit_intercept=True)
+        model.fit(ds.X, ds.y)
+        assert t == pytest.approx(np.sum(np.abs(model.coef_)))
+        assert t == pytest.approx(model.t_)
+        kkt = LassoKKT(ds.X, ds.y, model.lambda_, model.beta_, with_intercept=True)
+        assert kkt.within(1.0e-6, 1.0e-6)
 
     # we can fit data sets where (num_regressors) > (num_data)
     for _ in range(10):

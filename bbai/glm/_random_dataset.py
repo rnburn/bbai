@@ -25,6 +25,7 @@ class RandomRegressionDataset:
                 continue
             beta[j] = np.random.laplace()
         self.beta = beta
+        self.t = np.sum(np.abs(beta))
 
         # y
         y = np.dot(self.X, self.beta)

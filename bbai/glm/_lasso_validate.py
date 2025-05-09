@@ -1,19 +1,26 @@
 import numpy as np
 
-def evaluate_lo_cost_slow(X, y, m):
+def evaluate_lo_errors_slow(X, y, m):
     """Given a model, evaluate leave-one-out cross validation using a brute force approach.
 
     Intended for testing."""
     n = len(y)
-    res = 0.0
+    res = np.zeros(n)
     for i in range(n):
         ix = [ip for ip in range(n) if ip != i]
         Xm = X[ix, :]
         ym = y[ix]
         m.fit(Xm, ym)
         pred = m.predict(X[i])
-        res += (y[i] - pred)**2
+        res[i] += y[i] - pred
     return res
+
+def evaluate_lo_cost_slow(X, y, m):
+    """Given a model, evaluate leave-one-out cross validation using a brute force approach.
+
+    Intended for testing."""
+    errs = evaluate_lo_errors_slow(X, y, m)
+    return np.sum(errs**2)
 
 class LassoGridCv:
     """Construct a grid of leave-one-out cross validation values. Used for testing."""
