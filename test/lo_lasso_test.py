@@ -63,9 +63,39 @@ def exercise_dataset_t(ds):
     # check that no grid cv gives a better value than lambda opt
     assert cost_opt <= grid.cv_min + 1.0e-6
 
+def exercise_early_exit(ds, loo_mode, threshold):
+    fit_intercept = ds.with_intercept
+    m_full = Lasso(loo_mode=loo_mode, fit_intercept=fit_intercept)
+    m_early = Lasso(loo_mode=loo_mode, early_exit_threshold=threshold, fit_intercept=fit_intercept)
+
+    m_full.fit(ds.X, ds.y)
+    m_early.fit(ds.X, ds.y)
+    assert m_early.loo_mse_ >= m_full.loo_mse_
+    assert m_early.s_ <= m_full.s_
+
+    if loo_mode == 't':
+        t = m_early.t_ / 1.2
+        assert m_early.loo_squared_error_.evaluate_t(t) == m_full.loo_squared_error_.evaluate_t(t)
+    else:
+        lda = m_early.lambda_*1.1
+        assert m_early.loo_squared_error_.evaluate_lambda(lda) == m_full.loo_squared_error_.evaluate_lambda(lda)
+
+    segments = m_early.loo_squared_error_.segments_
+    x, a0, a1, a2 = segments[:, -1]
+    if not x < np.inf:
+        return
+
+    mse = a0 + a1 * x + a2*x**2
+    mse /= len(ds.y)
+    t = (mse - m_early.loo_mse_) / m_early.loo_mse_
+    assert t > threshold
+
 def exercise_dataset(ds):
     exercise_dataset_lambda(ds)
     exercise_dataset_t(ds)
+    for cutoff in [0.0, 0.01, 0.05]:
+        exercise_early_exit(ds, 't', cutoff)
+        exercise_early_exit(ds, 'lambda', cutoff)
 
 def test_random():
     np.random.seed(0)

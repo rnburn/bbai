@@ -22,16 +22,16 @@ class _LoSquaredError:
         self.domain_ = domain
     
     def evaluate_lambda(self, lambda_):
-        if self.domain_ == 'lambda':
-            return mdlls.lo_squared_error_evaluate(self.ptr_, -lambda_)
-        t = self.path_.lambda_to_t(lambda_)
-        return self.evaluate_t(t)
+        if self.domain_ == 't':
+            t = self.path_.lambda_to_t(lambda_)
+            return self.evaluate_t(t)
+        return mdlls.lo_squared_error_evaluate(self.ptr_, -lambda_)
 
     def evaluate_t(self, t):
-        if self.domain_ == 't':
-            return mdlls.lo_squared_error_evaluate(self.ptr_, t)
-        lda = self.path_.t_to_lambda(t)
-        return self.evalute_lambda(self, lda)
+        if self.domain_ == 'lambda':
+            lda = self.path_.t_to_lambda(t)
+            return self.evaluate_lambda(lda)
+        return mdlls.lo_squared_error_evaluate(self.ptr_, t)
 
     @property
     def segments_(self):
@@ -126,6 +126,15 @@ class Lasso:
     loo_errors : bool, default=False
         Compute the leave-one-out error function.
 
+    early_exit_threshold : float, default=np.inf
+        As the segments of the leave-one-out cross-validation are filled in, exit early if
+
+            ((leave-one-out error at last segment endpoint) - (best leave-one-out error)) / (best leave-one-out error)
+               > (early_exit_threshold).
+        
+        For data sets where fitting the full leave-one-out cost is too expensive; early_exit_threshold 
+        allows the algorithm to abort early if it finds a suitable local optimum.
+
     loo_mode : str, default='lambda'
         If loo_mode=='lambda', select lambda to minimize leave-one-out cross validation with the
         parameter lambda fixed. If loo_mode=='t', select t to minimize leave-one-out
@@ -154,6 +163,7 @@ class Lasso:
                  t=None, 
                  fit_intercept=True, 
                  loo_errors=False,
+                 early_exit_threshold=np.inf,
                  loo_mode='lambda',
                  fit_beta_path=False, 
                  graph_file="",
@@ -164,6 +174,7 @@ class Lasso:
                 t = t,
                 fit_intercept = fit_intercept,
                 loo_errors = loo_errors,
+                early_exit_threshold = early_exit_threshold,
                 loo_mode = loo_mode,
                 fit_beta_path = fit_beta_path,
                 graph_file = graph_file
@@ -198,6 +209,7 @@ class Lasso:
 
         res = mdlls.lo_lars(X, y, use_t, fit_intercept, 
                             loo_errors,
+                            self.params_['early_exit_threshold'],
                             self.params_['graph_file'])
         self.t_ = res['t_opt']
         self.lambda_ = res['lambda_opt']
