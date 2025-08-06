@@ -11,7 +11,7 @@ def exercise_dataset_lambda(ds):
         model = Lasso(lda, fit_intercept=fit_intercept)
         return evaluate_lo_cost_slow(X, y, model)
 
-    model = Lasso(fit_intercept=fit_intercept)
+    model = Lasso(fit_intercept=fit_intercept, loo_mode='lambda')
     model.fit(ds.X, ds.y)
 
     # check KKT conditions at lambda_opt

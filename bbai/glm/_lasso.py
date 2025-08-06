@@ -33,9 +33,22 @@ class _LoSquaredError:
             return self.evaluate_lambda(lda)
         return mdlls.lo_squared_error_evaluate(self.ptr_, t)
 
+    def solve_t(self, val):
+        res = mdlls.lo_squared_error_solve(self.ptr_, val)
+        if self.domain_ == 't':
+            return res
+        return [self.path_.lambda_to_t(-l) for l in res]
+
     @property
     def segments_(self):
         return mdlls.lo_squared_error_segments(self.ptr_)
+
+    @property
+    def minimums_(self):
+        res = mdlls.lo_squared_error_minimums(self.ptr_)
+        if self.domain_ == 'lambda':
+            res[0, :] = -res[0, :]
+        return res
 
     def plot_points(self, xmin=-np.inf, xmax=np.inf):
         if self.domain_ == 't':
@@ -81,6 +94,9 @@ class _LoSolutionPath:
 
     def t_to_lambda(self, t):
         return mdlls.solution_path_lambda_from_t(self.ptr_, t)
+
+    def beta_from_t(self, t):
+        return mdlls.solution_path_beta_from_t(self.ptr_, t)
 
     @property
     def segments_(self):
@@ -164,7 +180,7 @@ class Lasso:
                  fit_intercept=True, 
                  loo_errors=False,
                  early_exit_threshold=np.inf,
-                 loo_mode='lambda',
+                 loo_mode='t',
                  fit_beta_path=False, 
                  graph_file="",
     ):
