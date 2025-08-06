@@ -21,7 +21,7 @@ a leave-one-out cross-validation of the data set.
 from sklearn.datasets import load_diabetes
 from bbai.glm import Lasso
 X, y = load_diabetes(return_X_y=True)
-model = Lasso().fit(X, y) 
+model = Lasso(loo_mode='lambda').fit(X, y) 
             # Fit lasso regression using hyperparameters that maximize performance on
             # leave-one-out cross-validation.
 print(model.lambda_) # print out the hyperparameter that maximizes
