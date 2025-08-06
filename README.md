@@ -5,7 +5,7 @@ Deterministic, exact algorithms for objective Bayesian inference and hyperparame
 
 ## Installation
 
-**bbai** supports both Linux and OSX on x86-64.
+**bbai** supports both Linux on x86-64.
 
 ```
 pip install bbai
