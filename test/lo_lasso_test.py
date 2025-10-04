@@ -16,7 +16,7 @@ def exercise_dataset_lambda(ds):
 
     # check KKT conditions at lambda_opt
     kkt = LassoKKT(ds.X, ds.y, model.lambda_, model.beta_, with_intercept=fit_intercept)
-    kkt.within(1.0e-6)
+    assert kkt.within(1.0e-6, 1.0e-6)
 
     # check that lambda_opt gives the right CV
     cost_opt = model.loo_mse_ * len(ds.y)
@@ -42,7 +42,7 @@ def exercise_dataset_t(ds):
 
     # check KKT conditions at lambda_opt
     kkt = LassoKKT(ds.X, ds.y, model.lambda_, model.beta_, with_intercept=fit_intercept)
-    kkt.within(1.0e-6)
+    assert kkt.within(1.0e-6, 1.0e-6)
 
     # check that lambda_opt gives the right CV
     cost_opt = model.loo_mse_ * len(ds.y)

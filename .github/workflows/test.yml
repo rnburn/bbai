@@ -66,6 +66,9 @@ jobs:
     - name: Leave-one-out Lasso Testing
       run: |
         python test/lo_lasso_test.py
+    - name: Approximate Leave-one-out Lasso Testing
+      run: |
+        python test/alo_lasso_test.py
     - name: Binomial Hypothesis Testing
       run: |
         python test/binomial_hypothesis_test.py

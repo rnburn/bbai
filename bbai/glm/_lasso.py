@@ -107,6 +107,8 @@ class Lasso:
     """Implements Lasso regression with the regularization parameter fit so
     as to maximize performance on leave-one-out cross-validation.
 
+    See https://arxiv.org/abs/2508.14368
+
     Parameters
     ----------
     fit_intercept : bool, default=True
@@ -270,6 +272,59 @@ class Lasso:
         if fit_beta_path:
             self.beta_path_ = _LoSolutionPath(res['solution_path'])
 
+        return self
+
+    def predict(self, Xp):
+        """Predict target values."""
+        return self.intercept_ + np.dot(Xp, self.coef_)
+
+class LassoAlo:
+    """Similar to Lasso but uses approximate leave-one-out cross-validation instead
+    of leave-one-out cross-validation (ALO).
+
+    If your data set is too large for Lasso, then ALO can be nearly as good as 
+    leave-one-out cross-validation while being significantly less expensive to compute.
+    """
+
+    def __init__(self, fit_intercept=True):
+        self.params_ = {}
+        self.set_params(
+                fit_intercept = fit_intercept,
+        )
+        self.coef_ = None
+
+    def get_params(self, deep=True):
+        """Get parameters for this estimator."""
+        return self.params_
+
+    def set_params(self, **parameters):
+        """Set parameters for this estimator."""
+        for parameter, value in parameters.items():
+            self.params_[parameter] = value
+
+    def fit(self, X, y):
+        """Fit the model to the training data."""
+        assert X.shape[0] == y.shape[0] and X.shape[1] > 0
+        n = len(y)
+
+        fit_intercept = self.params_['fit_intercept']
+
+        res = mdlls.alo_lars(X, y, fit_intercept)
+
+        self.beta_path_ = _LoSolutionPath(res['solution_path'])
+        self.loo_squared_error_ = _LoSquaredError(res['lo_squared_error'], self.beta_path_, 'lambda')
+        self.lambda_ = res['lambda_opt']
+        self.t_ = res['t_opt']
+        self.t_max_ = mdlls.solution_path_t_max(res['solution_path'])
+        self.loo_mse_ = res['squared_error_opt'] / n
+        self.s_ = self.t_ / self.t_max_
+
+        self.coef_ = res['beta_opt']
+        self.beta_ = self.coef_
+        self.intercept_ = 0
+        if fit_intercept:
+            self.intercept_ = self.coef_[0]
+            self.coef_ = self.coef_[1:]
         return self
 
     def predict(self, Xp):

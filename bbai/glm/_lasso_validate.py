@@ -22,6 +22,31 @@ def evaluate_lo_cost_slow(X, y, m):
     errs = evaluate_lo_errors_slow(X, y, m)
     return np.sum(errs**2)
 
+def evaluate_alo_errors_slow(X, y, active, s, lda):
+    """Given a model, evaluate approximate leave-one-out cross validation using a brute force approach.
+
+    Intended for testing."""
+    s = np.array(s)
+    X = X[:, active]
+    n = len(y)
+    res = np.zeros(n)
+    for i in range(n):
+        ix = [ip for ip in range(n) if ip != i]
+        Xm = X[ix, :]
+        ym = y[ix]
+        A = np.linalg.inv(np.dot(Xm.T, Xm))
+        t = np.dot(Xm.T, ym) - lda * s
+        beta = np.dot(A, t)
+
+        pred = np.dot(X[i, :], beta)
+        res[i] = y[i] - pred
+
+    return res
+
+def evaluate_alo_cost_slow(X, y, active, s, lda):
+    errs = evaluate_alo_errors_slow(X, y, active, s, lda)
+    return np.sum(errs**2)
+
 class LassoGridCv:
     """Construct a grid of leave-one-out cross validation values. Used for testing."""
     def __init__(self, f, X, y, lambda_max, n=10):
@@ -31,10 +56,10 @@ class LassoGridCv:
             cv = f(X, y, lda)
             cvs.append(cv)
         self.cvs = cvs
-        self.cv_min = np.min(cvs)
+        self.cv_min = np.nanmin(cvs)
 
 class LassoKKT:
-    """Verify Karus-Kuhn-Tucker conditions for a Lasso solution."""
+    """Verify Karush-Kuhn-Tucker conditions for a Lasso solution."""
     def __init__(self, X, y, lda, beta, with_intercept=False):
         if with_intercept:
             X = np.hstack((np.ones((len(y), 1)), X))
