@@ -286,10 +286,13 @@ class LassoAlo:
     leave-one-out cross-validation while being significantly less expensive to compute.
     """
 
-    def __init__(self, fit_intercept=True):
+    def __init__(self, fit_intercept=True,
+                 early_exit_threshold=np.inf
+                 ):
         self.params_ = {}
         self.set_params(
                 fit_intercept = fit_intercept,
+                early_exit_threshold = early_exit_threshold,
         )
         self.coef_ = None
 
@@ -308,8 +311,9 @@ class LassoAlo:
         n = len(y)
 
         fit_intercept = self.params_['fit_intercept']
+        early_exit_threshold = self.params_['early_exit_threshold']
 
-        res = mdlls.alo_lars(X, y, fit_intercept)
+        res = mdlls.alo_lars(X, y, fit_intercept, early_exit_threshold)
 
         self.beta_path_ = _LoSolutionPath(res['solution_path'])
         self.loo_squared_error_ = _LoSquaredError(res['lo_squared_error'], self.beta_path_, 'lambda')
