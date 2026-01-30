@@ -72,3 +72,6 @@ jobs:
     - name: Binomial Hypothesis Testing
       run: |
         python test/binomial_hypothesis_test.py
+    - name: Bezier Fitting
+      run: |
+        python test/bezier_test.py
