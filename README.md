@@ -25,7 +25,7 @@ def f(t):
     return np.sin(6 * t) + np.sin(60 * np.exp(t))
 path = BezierPath(
     dst_xmin=0, dst_xmax=9.5,
-    dst_ymin = 0, dst_ymax=2)
+    dst_ymin=0, dst_ymax=2)
 path.fit(f, -1, 1)
 print(path.tikz_) 
     # prints a TikZ path for the curve that fits into the window
