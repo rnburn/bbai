@@ -13,6 +13,26 @@ pip install bbai
 
 ## Usage
 
+### Fit Cubic Bezier Paths to Parametric Functions
+Use a trust-region optimizer and orthogonal distance fitting to fit cubic Bezier curves
+to a function. This can be used to produce compact, accurate vector graphic plots of 
+functions for SVG or TikZ:
+
+```python
+from bbai.graphics import BezierPath
+import numpy as np
+def f(t):
+    return np.sin(6 * t) + np.sin(60 * np.exp(t))
+path = BezierPath(
+    dst_xmin=0, dst_xmax=9.5,
+    dst_ymin = 0, dst_ymax=2)
+path.fit(f, -1, 1)
+print(path.tikz_) 
+    # prints a TikZ path for the curve that fits into the window
+    # defined by the points (0, 0) and (9.5, 2)
+```
+See [doc/bezier-fitting.pdf](doc/bezier-fitting.pdf) for more details.
+
 ### Fit Lasso Regression to Optimize LOOCV
 Efficiently fit a lasso regression model with λ set so as to optimize performance on 
 a leave-one-out cross-validation of the data set.
